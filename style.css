@@ -341,6 +341,22 @@ h3 {
   color: rgba(22,39,80,.48);
 }
 .area-card p { margin: 14px 0 0; color: rgba(22,39,80,.70); max-width: 760px; }
+.media-brand-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  line-height: 1;
+}
+.media-brand-wordmark {
+  width: min(235px, 62vw);
+  height: auto;
+  max-height: 24px;
+}
+.media-brand-sign {
+  width: 28px;
+  height: auto;
+  flex: 0 0 auto;
+}
 .brand-build {
   position: relative;
   padding: 0;
@@ -541,6 +557,9 @@ h3 {
   .section-label { position: static; }
   .copy-cols, .principles { grid-template-columns: 1fr; }
   .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+  .media-brand-heading { gap: 10px; }
+  .media-brand-wordmark { width: min(205px, 70vw); max-height: 22px; }
+  .media-brand-sign { width: 24px; }
   .brand-build-inner, .contact-inner { padding: 74px 0; }
   .orbit { max-width: 260px; }
   .contact-box { padding-left: 20px; }

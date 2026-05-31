@@ -348,6 +348,22 @@ h3 {
   color: rgba(22,39,80,.48);
 }
 .area-card p { margin: 14px 0 0; color: rgba(22,39,80,.70); max-width: 760px; }
+.media-brand-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  line-height: 1;
+}
+.media-brand-wordmark {
+  width: min(235px, 62vw);
+  height: auto;
+  max-height: 24px;
+}
+.media-brand-sign {
+  width: 28px;
+  height: auto;
+  flex: 0 0 auto;
+}
 .brand-build {
   position: relative;
   padding: 0;
@@ -548,6 +564,9 @@ h3 {
   .section-label { position: static; }
   .copy-cols, .principles { grid-template-columns: 1fr; }
   .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+  .media-brand-heading { gap: 10px; }
+  .media-brand-wordmark { width: min(205px, 70vw); max-height: 22px; }
+  .media-brand-sign { width: 24px; }
   .brand-build-inner, .contact-inner { padding: 74px 0; }
   .orbit { max-width: 260px; }
   .contact-box { padding-left: 20px; }
@@ -635,7 +654,7 @@ h3 {
           <article class="area-card reveal">
             <div class="area-number">01</div>
             <div>
-              <h3>Hois Media</h3>
+              <h3 class="media-brand-heading"><img class="media-brand-wordmark" src="Hois%20Media%20schriftfont.svg" alt="Hois Media"><img class="media-brand-sign" src="Hois%20Media%20Logo.svg" alt="" aria-hidden="true"></h3>
               <p>Medien- und Content-Arbeit im Social-Media-Umfeld. Der Fokus liegt auf sauber aufbereiteten Kurzformaten, Schnitt, Struktur und Veröffentlichung.</p>
             </div>
           </article>
