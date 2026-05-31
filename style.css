@@ -374,17 +374,38 @@ h3 {
 }
 .orbit::before { inset: 44px; }
 .orbit::after { inset: 88px; background: rgba(253,252,251,.34); }
+.orbit-map {
+  position: absolute;
+  inset: 18px;
+  z-index: 1;
+  opacity: .88;
+  pointer-events: none;
+}
+.orbit-map path {
+  fill: none;
+  stroke: rgba(201,194,182,.68);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.orbit.visible .orbit-map path { animation: connectOrbit 1.8s var(--ease) .12s forwards; }
+.orbit.visible .orbit-map path:nth-child(2) { animation-delay: .42s; }
 .orbit-dot {
   position: absolute;
+  z-index: 3;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--color-dust);
+  box-shadow: 0 0 0 7px rgba(201,194,182,.16);
   animation: breathe 4s ease-in-out infinite;
 }
-.orbit-dot:nth-child(1) { top: 26px; left: 50%; }
-.orbit-dot:nth-child(2) { right: 36px; top: 48%; animation-delay: .5s; }
-.orbit-dot:nth-child(3) { bottom: 42px; left: 34%; animation-delay: 1s; }
+.orbit-dot-one { top: 26px; left: calc(50% - 4px); }
+.orbit-dot-two { right: 36px; top: 48%; animation-delay: .5s; }
+.orbit-dot-three { bottom: 42px; left: 34%; animation-delay: 1s; }
 .orbit .logo { width: 36px; height: 47px; z-index: 2; color: var(--color-indigo); }
 .principles {
   display: grid;
@@ -503,6 +524,7 @@ h3 {
 @keyframes fillmark { to { fill: currentColor; } }
 @keyframes line { to { stroke-dashoffset: -420; } }
 @keyframes breathe { 50% { transform: scale(1.7); opacity: .55; } }
+@keyframes connectOrbit { to { stroke-dashoffset: 0; } }
 @media (max-width: 880px) {
   :root { --page: min(100%, calc(100vw - 28px)); }
   body { font-size: 16px; }
@@ -551,4 +573,5 @@ h3 {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
   .mark-draw path { fill: currentColor; stroke-dashoffset: 0; }
+  .orbit-map path { stroke-dashoffset: 0; }
 }
