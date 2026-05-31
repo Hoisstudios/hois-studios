@@ -675,6 +675,8 @@ h3 {
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(140deg, rgba(253,252,251,.84), rgba(22,39,80,.13), rgba(201,194,182,.42));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask-composite: exclude;
   opacity: .62;
@@ -1084,6 +1086,284 @@ h3 {
 }
 
 
+/* --- Final simplified Bereiche + complete Aufbau animation --- */
+.area-list {
+  display: block;
+  margin-top: 46px;
+  border-top: 1px solid rgba(22,39,80,.14);
+}
+.area-row {
+  display: grid;
+  grid-template-columns: 72px minmax(190px, 270px) minmax(0, 1fr);
+  gap: clamp(18px, 4vw, 48px);
+  align-items: start;
+  padding: 34px 0;
+  border-bottom: 1px solid rgba(22,39,80,.12);
+  transition: border-color .35s var(--ease), transform .35s var(--ease);
+}
+.area-row:hover {
+  border-bottom-color: rgba(22,39,80,.26);
+  transform: translateX(4px);
+}
+.area-index {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 760;
+  letter-spacing: .16em;
+  color: rgba(22,39,80,.42);
+  padding-top: 8px;
+}
+.area-title span {
+  display: block;
+  margin-bottom: 11px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 720;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(22,39,80,.50);
+}
+.area-title h3 {
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.06;
+}
+.area-copy p {
+  margin: 0;
+  max-width: 680px;
+  color: rgba(22,39,80,.70);
+}
+.area-copy p + p { margin-top: 12px; }
+.area-note {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 620;
+  letter-spacing: .02em;
+  color: rgba(22,39,80,.54) !important;
+}
+.area-note::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: var(--color-dust);
+}
+.brand-build {
+  background:
+    radial-gradient(circle at 77% 18%, rgba(253,252,251,.72), transparent 34%),
+    linear-gradient(135deg, rgba(220,231,242,.96), rgba(253,252,251,.80) 56%, rgba(220,231,242,.72));
+}
+.brand-build-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 392px);
+  align-items: center;
+}
+.build-composition {
+  width: min(392px, 100%);
+  justify-self: end;
+  --build-progress: 0;
+}
+.composition-field {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 38px;
+  overflow: hidden;
+  border: 1px solid rgba(22,39,80,.12);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(253,252,251,.95) 0 24%, rgba(253,252,251,.58) 25% 43%, transparent 44%),
+    linear-gradient(145deg, rgba(253,252,251,.62), rgba(220,231,242,.55));
+  box-shadow:
+    inset 0 1px 0 rgba(253,252,251,.88),
+    0 28px 78px rgba(22,39,80,.095);
+  transform: translateY(calc((.5 - var(--build-progress)) * 14px));
+  isolation: isolate;
+}
+.composition-field::before {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border-radius: 30px;
+  border: 1px solid rgba(253,252,251,.70);
+  pointer-events: none;
+}
+.composition-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(22,39,80,.038) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(22,39,80,.028) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 72%);
+  opacity: .65;
+  pointer-events: none;
+}
+.composition-glow {
+  position: absolute;
+  inset: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253,252,251,.92), rgba(253,252,251,.18) 62%, transparent 70%);
+  filter: blur(2px);
+  z-index: 1;
+}
+.composition-lines {
+  position: absolute;
+  inset: 28px;
+  z-index: 2;
+  width: calc(100% - 56px);
+  height: calc(100% - 56px);
+  overflow: visible;
+}
+.composition-ring,
+.composition-path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.ring-one { stroke: rgba(201,194,182,.62); stroke-width: 1; }
+.ring-two { stroke: rgba(22,39,80,.10); stroke-width: 1; }
+.path-main { stroke: rgba(22,39,80,.23); stroke-width: 1.35; }
+.path-soft { stroke: rgba(201,194,182,.66); stroke-width: 1; }
+.path-base { stroke: rgba(22,39,80,.12); stroke-width: 1; }
+.build-composition.visible .composition-ring,
+.build-composition.visible .composition-path {
+  animation: compositionDraw 1.55s var(--ease) forwards;
+}
+.build-composition.visible .ring-two { animation-delay: .12s; }
+.build-composition.visible .path-main { animation-delay: .28s; }
+.build-composition.visible .path-soft { animation-delay: .42s; }
+.build-composition.visible .path-base { animation-delay: .56s; }
+.composition-core {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  width: 132px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(253,252,251,.92);
+  border: 1px solid rgba(22,39,80,.10);
+  box-shadow: 0 22px 52px rgba(22,39,80,.12), inset 0 1px 0 rgba(253,252,251,.9);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.94);
+}
+.composition-core::before {
+  content: "";
+  position: absolute;
+  inset: -17px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,194,182,.38);
+}
+.composition-core img {
+  position: relative;
+  z-index: 1;
+  width: 58px;
+  height: auto;
+}
+.build-composition.visible .composition-core {
+  animation: compositionCoreIn .82s var(--ease) .18s forwards, compositionBreathe 6.8s ease-in-out 1.35s infinite;
+}
+.composition-point {
+  position: absolute;
+  z-index: 5;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-dust);
+  box-shadow: 0 0 0 8px rgba(201,194,182,.14), 0 0 28px rgba(201,194,182,.38);
+  opacity: 0;
+  transform: scale(.7);
+}
+.point-a { left: 79px; top: 74px; }
+.point-b { right: 70px; top: 128px; }
+.point-c { left: 86px; bottom: 100px; }
+.point-d { right: 82px; bottom: 74px; }
+.build-composition.visible .composition-point {
+  animation: compositionPointIn .62s var(--ease) forwards, compositionPulse 5.6s ease-in-out 1.25s infinite;
+}
+.build-composition.visible .point-a { animation-delay: .72s, 1.35s; }
+.build-composition.visible .point-b { animation-delay: .84s, 1.5s; }
+.build-composition.visible .point-c { animation-delay: .96s, 1.65s; }
+.build-composition.visible .point-d { animation-delay: 1.08s, 1.8s; }
+.composition-label {
+  position: absolute;
+  z-index: 5;
+  color: rgba(22,39,80,.48);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(5px);
+}
+.label-top { left: 106px; top: 58px; }
+.label-right { right: 56px; top: 158px; }
+.label-left { left: 54px; bottom: 126px; }
+.label-bottom { right: 94px; bottom: 54px; }
+.build-composition.visible .composition-label { animation: compositionLabelIn .68s var(--ease) forwards; }
+.build-composition.visible .label-top { animation-delay: .86s; }
+.build-composition.visible .label-right { animation-delay: .98s; }
+.build-composition.visible .label-left { animation-delay: 1.10s; }
+.build-composition.visible .label-bottom { animation-delay: 1.22s; }
+@keyframes compositionDraw { to { stroke-dashoffset: 0; } }
+@keyframes compositionCoreIn { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes compositionBreathe {
+  50% { transform: translate(-50%, -50%) scale(1.025); box-shadow: 0 26px 60px rgba(22,39,80,.14), inset 0 1px 0 rgba(253,252,251,.9); }
+}
+@keyframes compositionPointIn { to { opacity: 1; transform: scale(1); } }
+@keyframes compositionPulse { 50% { box-shadow: 0 0 0 12px rgba(201,194,182,.08), 0 0 36px rgba(201,194,182,.48); } }
+@keyframes compositionLabelIn { to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 880px) {
+  .area-list { margin-top: 36px; }
+  .area-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 28px 0;
+    transform: none !important;
+  }
+  .area-index { padding-top: 0; }
+  .area-title span { margin-bottom: 8px; }
+  .brand-build-inner { grid-template-columns: 1fr; }
+  .build-composition { width: min(330px, 100%); justify-self: start; }
+  .composition-field { border-radius: 32px; }
+  .composition-core { width: 118px; }
+  .composition-core img { width: 51px; }
+  .composition-lines { inset: 24px; width: calc(100% - 48px); height: calc(100% - 48px); }
+  .point-a { left: 58px; top: 62px; }
+  .point-b { right: 58px; top: 112px; }
+  .point-c { left: 64px; bottom: 91px; }
+  .point-d { right: 70px; bottom: 66px; }
+  .composition-label { font-size: 10px; }
+  .label-top { left: 82px; top: 48px; }
+  .label-right { right: 40px; top: 136px; }
+  .label-left { left: 42px; bottom: 116px; }
+  .label-bottom { right: 76px; bottom: 48px; }
+}
+@media (max-width: 420px) {
+  .composition-label { display: none; }
+  .composition-point { width: 8px; height: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .build-composition.visible .composition-ring,
+  .build-composition.visible .composition-path,
+  .build-composition.visible .composition-core,
+  .build-composition.visible .composition-point,
+  .build-composition.visible .composition-label {
+    animation: none !important;
+  }
+  .composition-ring,
+  .composition-path { stroke-dashoffset: 0; }
+  .composition-core { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .composition-point { opacity: 1; transform: scale(1); }
+  .composition-label { opacity: 1; transform: none; }
+}
 </style>
 <title>Hois Studios · Inh. Jannik Hois</title>
 <meta name="description" content="Hois Studios ist die Geschäftsbezeichnung des Einzelunternehmens von Jannik Hois für Medien, Content und den Aufbau einer eigenen Modemarke.">
@@ -1157,30 +1437,30 @@ h3 {
     <div class="section-grid">
       <div class="section-label reveal">Bereiche</div>
       <div>
-        <h2 id="bereiche-title" class="reveal">Tätigkeiten mit eigenem Raum.</h2>
-        <p class="lead reveal">Unter Hois Studios laufen zwei Bereiche zusammen: die Arbeit an digitalen Inhalten und der langfristige Aufbau einer eigenen Modemarke. Beide Bereiche bleiben klar getrennt, werden aber mit derselben Haltung geführt: ruhig, sorgfältig und mit Blick für Qualität.</p>
+        <h2 id="bereiche-title" class="reveal">Tätigkeitsbereiche.</h2>
+        <p class="lead reveal">Unter Hois Studios laufen zwei selbstständige Tätigkeiten zusammen. Sie bleiben bewusst klar getrennt und werden mit derselben Haltung geführt: ruhig, sauber und mit Blick für Qualität.</p>
         <div class="area-list">
-          <article class="area-card area-card-media reveal">
-            <div class="area-top">
-              <span class="area-number">01</span>
-              <span class="area-tag">Hois Media</span>
+          <article class="area-row reveal">
+            <div class="area-index">01</div>
+            <div class="area-title">
+              <span>Hois Media</span>
+              <h3>Medien & Content</h3>
             </div>
-            <div class="area-symbol area-symbol-media" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Medien & Content</h3>
-            <p>Hois Media steht für die Bearbeitung, Strukturierung und Aufbereitung digitaler Inhalte. Im Mittelpunkt stehen klare Formate, ein gutes Gefühl für Rhythmus und eine ruhige, saubere Umsetzung.</p>
-            <p>Es geht nicht darum, Inhalte lauter zu machen, sondern passender: verständlich, hochwertig und abgestimmt auf den jeweiligen Einsatz.</p>
-            <div class="area-foot" aria-label="Schwerpunkte"><span>Schnitt</span><span>Content</span><span>Formatgefühl</span></div>
+            <div class="area-copy">
+              <p>Hois Media umfasst die Bearbeitung, Strukturierung und Aufbereitung digitaler Inhalte für unterschiedliche Formate und Plattformen.</p>
+              <p class="area-note">Schnitt · Content · digitale Formate</p>
+            </div>
           </article>
-          <article class="area-card area-card-fashion reveal">
-            <div class="area-top">
-              <span class="area-number">02</span>
-              <span class="area-tag">Modemarke</span>
+          <article class="area-row reveal">
+            <div class="area-index">02</div>
+            <div class="area-title">
+              <span>Modemarke</span>
+              <h3>Aufbau einer eigenen Marke</h3>
             </div>
-            <div class="area-symbol area-symbol-fashion" aria-hidden="true"></div>
-            <h3>Aufbau einer eigenen Modemarke</h3>
-            <p>Parallel entsteht unter Hois Studios der Aufbau einer eigenen Modemarke. Die Marke wird bewusst langsam entwickelt – mit Fokus auf Gestaltung, Materialgefühl, Ausdruck und Wiedererkennbarkeit.</p>
-            <p>Meine Vision ist eine Marke, die nicht beliebig wirkt, sondern Haltung zeigt: reduziert, detailbewusst und mit echtem Mehrwert für die Menschen, die sich damit verbinden.</p>
-            <div class="area-foot" aria-label="Schwerpunkte"><span>Markenaufbau</span><span>Mode</span><span>Details</span></div>
+            <div class="area-copy">
+              <p>Parallel entsteht der langfristige Aufbau einer eigenen Modemarke. Die Entwicklung erfolgt Schritt für Schritt – mit Fokus auf Gestaltung, Materialgefühl, Ausdruck und Wiedererkennbarkeit.</p>
+              <p class="area-note">Markenaufbau · Mode · Details</p>
+            </div>
           </article>
         </div>
       </div>
@@ -1194,26 +1474,27 @@ h3 {
         <h2 id="aufbau-title" class="reveal">Von innen nach außen.</h2>
         <p class="lead reveal">Manche Ideen beginnen leise: mit einem Gefühl für Form, Material, Wirkung und dem Wunsch, etwas Sinnvolles entstehen zu lassen. Ich bin überzeugt, dass gut gestaltete Inhalte und eine sorgfältig aufgebaute Modemarke echten Mehrwert bieten und Zukunft mitgestalten können – nicht durch Lautstärke, sondern durch Klarheit, Qualität und eine Haltung, die sichtbar wird.</p>
       </div>
-      <div class="build-visual reveal" aria-hidden="true">
-        <div class="build-field">
-          <span class="build-dust"></span>
-          <span class="build-orbit build-orbit-one"></span>
-          <span class="build-orbit build-orbit-two"></span>
-          <svg class="build-lines" viewBox="0 0 420 420" aria-hidden="true" focusable="false">
-            <path class="build-line build-line-one" pathLength="1" d="M82 260 C126 178 184 142 252 166 C318 189 352 236 356 304"></path>
-            <path class="build-line build-line-two" pathLength="1" d="M108 112 C168 74 260 72 316 134 C374 198 352 294 296 340"></path>
-            <path class="build-line build-line-three" pathLength="1" d="M70 312 C136 374 244 374 320 314"></path>
+      <div class="build-composition reveal" aria-hidden="true">
+        <div class="composition-field">
+          <span class="composition-glow"></span>
+          <svg class="composition-lines" viewBox="0 0 360 360" aria-hidden="true" focusable="false">
+            <circle class="composition-ring ring-one" pathLength="1" cx="180" cy="180" r="118"></circle>
+            <circle class="composition-ring ring-two" pathLength="1" cx="180" cy="180" r="74"></circle>
+            <path class="composition-path path-main" pathLength="1" d="M72 228 C108 158 164 126 226 148 C284 169 312 214 314 270"></path>
+            <path class="composition-path path-soft" pathLength="1" d="M92 112 C144 76 230 76 278 132 C326 188 306 270 254 312"></path>
+            <path class="composition-path path-base" pathLength="1" d="M74 280 C130 326 232 326 292 278"></path>
           </svg>
-          <div class="build-center">
-            <svg class="build-logo-animated" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
-              <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-            </svg>
+          <div class="composition-core">
+            <img src="assets/hois-logo-indigo.svg" alt="">
           </div>
-          <span class="build-node node-idea"><i></i><span>Idee</span></span>
-          <span class="build-node node-haltung"><i></i><span>Haltung</span></span>
-          <span class="build-node node-form"><i></i><span>Form</span></span>
-          <span class="build-node node-wert"><i></i><span>Mehrwert</span></span>
-          <span class="build-caption">Hois Studios</span>
+          <span class="composition-point point-a"></span>
+          <span class="composition-point point-b"></span>
+          <span class="composition-point point-c"></span>
+          <span class="composition-point point-d"></span>
+          <span class="composition-label label-top">Idee</span>
+          <span class="composition-label label-right">Form</span>
+          <span class="composition-label label-left">Haltung</span>
+          <span class="composition-label label-bottom">Wert</span>
         </div>
       </div>
     </div>
@@ -1265,7 +1546,7 @@ h3 {
   const body = document.body;
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('.menu-button');
-  const buildVisual = document.querySelector('.build-visual');
+  const buildVisual = document.querySelector('.build-composition');
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -1305,6 +1586,7 @@ h3 {
   const items = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window)) {
     items.forEach(el => el.classList.add('visible'));
+    updateBuildVisual();
     return;
   }
   const io = new IntersectionObserver((entries) => {
@@ -1312,6 +1594,7 @@ h3 {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         io.unobserve(entry.target);
+        updateBuildVisual();
       }
     });
   }, { threshold: .13, rootMargin: '0px 0px -8% 0px' });

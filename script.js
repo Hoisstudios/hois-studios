@@ -2,7 +2,7 @@
   const body = document.body;
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('.menu-button');
-  const buildVisual = document.querySelector('.build-visual');
+  const buildVisual = document.querySelector('.build-composition');
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -42,6 +42,7 @@
   const items = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window)) {
     items.forEach(el => el.classList.add('visible'));
+    updateBuildVisual();
     return;
   }
   const io = new IntersectionObserver((entries) => {
@@ -49,6 +50,7 @@
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         io.unobserve(entry.target);
+        updateBuildVisual();
       }
     });
   }, { threshold: .13, rootMargin: '0px 0px -8% 0px' });
