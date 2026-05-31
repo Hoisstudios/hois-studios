@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#162750">
 <link rel="icon" href="assets/hois-logo-indigo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css">
 <style>
 :root {
   --color-white: #FDFCFB;
@@ -14,11 +13,8 @@
   --color-dust: #C9C2B6;
   --font-heading: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --page: min(1180px, calc(100vw - 48px));
-  --narrow: min(900px, calc(100vw - 48px));
+  --page: min(1120px, calc(100vw - 40px));
   --ease: cubic-bezier(.22, 1, .36, 1);
-  --ease-soft: cubic-bezier(.16, 1, .3, 1);
-  --hero-shift: 0px;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--color-white); }
@@ -28,7 +24,7 @@ body {
   background: var(--color-white);
   font-family: var(--font-body);
   font-size: 17px;
-  line-height: 1.72;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -47,31 +43,21 @@ img, svg { display: block; max-width: 100%; }
   color: var(--color-white);
 }
 .skip-link:focus { transform: translateY(0); }
-.progress {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: var(--progress, 0%);
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-dust), rgba(201,194,182,.52));
-}
 .site-header {
   position: fixed;
   z-index: 80;
   top: 0;
   left: 0;
   right: 0;
-  padding: 16px 24px;
+  padding: 14px 20px;
   border-bottom: 1px solid transparent;
-  transition: background .36s var(--ease), border-color .36s var(--ease), padding .36s var(--ease), color .36s var(--ease);
+  transition: background .35s var(--ease), border-color .35s var(--ease), padding .35s var(--ease);
 }
 .site-header.scrolled, .legal-page .site-header {
   background: rgba(253,252,251,.91);
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   border-bottom-color: rgba(22,39,80,.10);
-  padding-block: 10px;
+  padding-block: 9px;
 }
 .nav-wrap {
   width: var(--page);
@@ -98,12 +84,22 @@ img, svg { display: block; max-width: 100%; }
 .home:not(.nav-open) .site-header:not(.scrolled) .brand,
 .home:not(.nav-open) .site-header:not(.scrolled) .nav a,
 .home:not(.nav-open) .site-header:not(.scrolled) .menu-button { color: var(--color-white); }
-.logo { width: 22px; height: 29px; color: currentColor; flex: 0 0 22px; overflow: visible; }
+.logo { width: 22px; height: 29px; color: currentColor; flex: 0 0 22px; }
 .logo path { fill: currentColor; }
+.mark-draw path {
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.55s var(--ease) .18s forwards, fillmark .6s ease 1.15s forwards;
+}
 .nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
   font-size: 13px;
 }
 .nav a, .footer-links a, .legal-links a {
@@ -122,7 +118,7 @@ img, svg { display: block; max-width: 100%; }
   transform-origin: right;
   transition: transform .35s var(--ease);
 }
-.nav a:hover::after, .nav a.is-active::after, .footer-links a:hover::after, .legal-links a:hover::after {
+.nav a:hover::after, .footer-links a:hover::after, .legal-links a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -146,25 +142,33 @@ img, svg { display: block; max-width: 100%; }
 }
 .nav-open .menu-button span:first-child { transform: translateY(3px) rotate(42deg); }
 .nav-open .menu-button span:last-child { transform: translateY(-3px) rotate(-42deg); }
+.progress {
+  position: fixed;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  width: var(--progress, 0%);
+  height: 2px;
+  background: var(--color-dust);
+}
 .hero {
-  min-height: 94svh;
+  min-height: 92svh;
   position: relative;
   overflow: hidden;
   display: grid;
   align-items: center;
-  padding: 126px 24px 86px;
+  padding: 122px 20px 82px;
   background: var(--color-indigo);
   color: var(--color-white);
 }
 .hero::before {
   content: "";
   position: absolute;
-  inset: auto -18vw -40vw auto;
-  width: 68vw;
-  height: 68vw;
+  inset: auto -18vw -38vw auto;
+  width: 66vw;
+  height: 66vw;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(220,231,242,.18), transparent 64%);
-  transform: translate3d(0, calc(var(--hero-shift) * .18), 0);
+  background: radial-gradient(circle, rgba(220,231,242,.17), transparent 64%);
 }
 .hero::after {
   content: "";
@@ -174,36 +178,36 @@ img, svg { display: block; max-width: 100%; }
     linear-gradient(90deg, rgba(253,252,251,.045) 1px, transparent 1px),
     linear-gradient(0deg, rgba(253,252,251,.028) 1px, transparent 1px);
   background-size: 92px 92px;
-  mask-image: radial-gradient(circle at 22% 24%, black, transparent 72%);
-  transform: translate3d(0, calc(var(--hero-shift) * -.08), 0);
+  mask-image: radial-gradient(circle at 24% 24%, black, transparent 72%);
 }
 .line-field {
   position: absolute;
   inset: 0;
-  opacity: .62;
+  opacity: .55;
   pointer-events: none;
-  transform: translate3d(0, calc(var(--hero-shift) * .1), 0);
 }
 .line-field path {
   fill: none;
-  stroke: rgba(201,194,182,.38);
+  stroke: rgba(201,194,182,.36);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 9 20;
-  animation: line 38s linear infinite;
+  animation: line 34s linear infinite;
 }
-.line-field path:nth-child(2) { stroke: rgba(220,231,242,.24); animation-duration: 48s; animation-direction: reverse; }
-.line-field path:nth-child(3) { stroke: rgba(253,252,251,.14); animation-duration: 58s; }
+.line-field path:nth-child(2) { stroke: rgba(220,231,242,.24); animation-duration: 44s; animation-direction: reverse; }
+.line-field path:nth-child(3) { stroke: rgba(253,252,251,.16); animation-duration: 54s; }
 .hero-inner {
   position: relative;
   z-index: 2;
   width: var(--page);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(270px, 350px);
-  gap: clamp(42px, 8vw, 110px);
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: clamp(34px, 8vw, 90px);
   align-items: end;
 }
+.hero-mark { width: 48px; height: 63px; margin-bottom: 26px; color: var(--color-white); }
+.hero-mark .logo { width: 48px; height: 63px; flex-basis: 48px; }
 .kicker, .eyebrow {
   margin: 0 0 14px;
   font-family: var(--font-heading);
@@ -213,41 +217,40 @@ img, svg { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 .kicker { color: rgba(253,252,251,.72); }
-.eyebrow { color: rgba(22,39,80,.55); }
 h1, h2, h3 {
   margin: 0;
   font-family: var(--font-heading);
-  letter-spacing: -.036em;
-  line-height: .99;
+  letter-spacing: -.035em;
+  line-height: .98;
   text-wrap: balance;
 }
 h1 {
-  max-width: 900px;
-  font-size: clamp(50px, 8.5vw, 116px);
+  max-width: 810px;
+  font-size: clamp(48px, 8.8vw, 112px);
   font-weight: 680;
 }
 h2 {
-  max-width: 840px;
-  font-size: clamp(34px, 5.4vw, 74px);
+  max-width: 790px;
+  font-size: clamp(32px, 5.4vw, 72px);
   font-weight: 650;
 }
 h3 {
-  font-size: clamp(20px, 2.3vw, 30px);
+  font-size: clamp(20px, 2.4vw, 30px);
   font-weight: 640;
   line-height: 1.08;
 }
 .hero-text {
-  max-width: 680px;
-  margin: 30px 0 0;
+  max-width: 610px;
+  margin: 28px 0 0;
   color: rgba(253,252,251,.78);
-  font-size: clamp(17px, 1.42vw, 20px);
+  font-size: clamp(17px, 1.45vw, 20px);
 }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
   align-items: center;
-  margin-top: 36px;
+  margin-top: 34px;
 }
 .button-link, .text-link {
   display: inline-flex;
@@ -258,93 +261,42 @@ h3 {
 }
 .button-link {
   padding: 10px 18px;
-  border: 1px solid rgba(201,194,182,.68);
+  border: 1px solid rgba(253,252,251,.45);
   border-radius: 999px;
-  background: rgba(253,252,251,.045);
+  background: rgba(253,252,251,.05);
   transition: transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
 }
 .button-link:hover { transform: translateY(-2px); background: rgba(253,252,251,.10); border-color: rgba(253,252,251,.72); }
 .text-link { color: rgba(253,252,251,.72); }
-.hero-panel {
-  position: relative;
-  overflow: hidden;
-  min-height: 415px;
-  border: 1px solid rgba(201,194,182,.42);
-  background: linear-gradient(160deg, rgba(253,252,251,.08), rgba(253,252,251,.03));
-  backdrop-filter: blur(10px);
-  padding: 30px;
-  display: grid;
-  align-content: space-between;
-  transform: translate3d(0, calc(var(--hero-shift) * -.12), 0);
+.hero-note {
+  border-left: 1px solid rgba(201,194,182,.58);
+  padding-left: 22px;
+  max-width: 260px;
 }
-.hero-panel::before {
-  content: "";
-  position: absolute;
-  inset: 18px;
-  border: 1px solid rgba(253,252,251,.09);
-  pointer-events: none;
-}
-.hero-panel::after {
-  content: "";
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  right: -44px;
-  top: -44px;
-  border-radius: 50%;
-  background: rgba(201,194,182,.18);
-  filter: blur(2px);
-}
-.hero-symbol {
-  position: relative;
-  width: 90px;
-  height: 118px;
-  color: var(--color-white);
-  margin: 4px 0 0;
-}
-.hero-symbol .logo { width: 90px; height: 118px; }
-.mark-draw path {
-  fill: transparent;
-  stroke: currentColor;
-  stroke-width: 1.35;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 2.9s var(--ease-soft) .45s forwards, fillmark .9s ease 2.45s forwards;
-}
-.hero-panel-meta {
-  position: relative;
-  z-index: 1;
-  border-left: 1px solid rgba(201,194,182,.66);
-  padding-left: 20px;
-}
-.hero-panel-meta span {
+.hero-note span {
   display: block;
-  color: rgba(253,252,251,.58);
+  color: rgba(253,252,251,.62);
   font-size: 12px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
   margin-bottom: 10px;
 }
-.hero-panel-meta strong {
+.hero-note strong {
   display: block;
   font-family: var(--font-heading);
   font-size: 22px;
   line-height: 1.12;
   letter-spacing: -.025em;
 }
-.hero-panel-meta p { margin: 13px 0 0; color: rgba(253,252,251,.66); font-size: 14px; line-height: 1.55; }
+.hero-note p { margin: 12px 0 0; color: rgba(253,252,251,.66); font-size: 14px; line-height: 1.55; }
 .section {
   width: var(--page);
   margin: 0 auto;
-  padding: clamp(86px, 11vw, 150px) 0;
+  padding: clamp(82px, 11vw, 146px) 0;
   border-bottom: 1px solid rgba(22,39,80,.10);
 }
 .section-grid {
   display: grid;
-  grid-template-columns: 175px minmax(0,1fr);
-  gap: clamp(36px, 7vw, 86px);
+  grid-template-columns: 170px minmax(0,1fr);
+  gap: clamp(34px, 7vw, 82px);
 }
 .section-label {
   position: sticky;
@@ -357,16 +309,8 @@ h3 {
   text-transform: uppercase;
   color: rgba(22,39,80,.55);
 }
-.section-label::before {
-  content: "";
-  display: block;
-  width: 34px;
-  height: 1px;
-  margin-bottom: 14px;
-  background: var(--color-dust);
-}
 .lead {
-  max-width: 760px;
+  max-width: 730px;
   margin: 24px 0 0;
   font-size: clamp(18px, 1.7vw, 22px);
   line-height: 1.65;
@@ -375,249 +319,91 @@ h3 {
 .copy-cols {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 30px;
-  margin-top: 42px;
+  gap: 28px;
+  margin-top: 38px;
   color: rgba(22,39,80,.72);
 }
-.intro-card {
-  margin-top: 44px;
-  display: grid;
-  grid-template-columns: 170px minmax(0,1fr);
-  gap: 32px;
-  padding: 30px;
-  border: 1px solid rgba(22,39,80,.10);
-  background: linear-gradient(135deg, rgba(220,231,242,.36), rgba(253,252,251,.78));
-}
-.intro-card span {
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 720;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: rgba(22,39,80,.52);
-}
-.intro-card p { margin: 0; color: rgba(22,39,80,.72); }
 .area-list {
   display: grid;
   gap: 14px;
-  margin-top: 44px;
+  margin-top: 42px;
 }
 .area-card {
-  --mx: 50%;
-  --my: 50%;
   position: relative;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 98px minmax(0, 1fr);
-  gap: 30px;
-  padding: 32px;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 28px;
+  padding: 30px;
   border: 1px solid rgba(22,39,80,.10);
-  background: rgba(220,231,242,.36);
-  transition: transform .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+  background: rgba(220,231,242,.38);
+  transition: transform .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
 }
-.area-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--mx) var(--my), rgba(201,194,182,.20), transparent 34%);
-  opacity: 0;
-  transition: opacity .35s var(--ease);
-  pointer-events: none;
-}
-.area-card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--color-dust);
-  transform: scaleY(.18);
-  transform-origin: top;
-  transition: transform .45s var(--ease-soft);
-}
-.area-card:nth-child(even) { background: rgba(253,252,251,.84); }
-.area-card:hover { transform: translateY(-4px); border-color: rgba(22,39,80,.21); background: rgba(220,231,242,.52); box-shadow: 0 26px 70px rgba(22,39,80,.08); }
-.area-card:hover::before { opacity: 1; }
-.area-card:hover::after { transform: scaleY(1); }
+.area-card:nth-child(even) { background: rgba(253,252,251,.8); }
+.area-card:hover { transform: translateY(-4px); border-color: rgba(22,39,80,.22); background: rgba(220,231,242,.52); }
 .area-number {
   font-family: var(--font-heading);
   font-size: 12px;
-  font-weight: 760;
+  font-weight: 720;
   color: rgba(22,39,80,.48);
-  letter-spacing: .16em;
 }
-.area-card p { margin: 14px 0 0; color: rgba(22,39,80,.70); max-width: 790px; }
-.area-tag {
-  display: inline-flex;
-  margin-top: 18px;
-  padding: 5px 10px;
-  border: 1px solid rgba(201,194,182,.62);
-  border-radius: 999px;
-  color: rgba(22,39,80,.62);
-  font-size: 12px;
-}
+.area-card p { margin: 14px 0 0; color: rgba(22,39,80,.70); max-width: 760px; }
 .brand-build {
   position: relative;
   padding: 0;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--color-blue-light), rgba(253,252,251,.92));
+  background: var(--color-blue-light);
   border-bottom: 0;
 }
-.brand-build::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(22,39,80,.06) 1px, transparent 1px);
-  background-size: 120px 120px;
-  mask-image: linear-gradient(90deg, transparent, black 15%, black 70%, transparent);
-}
 .brand-build-inner {
-  position: relative;
-  z-index: 1;
   width: var(--page);
   margin: 0 auto;
-  padding: clamp(92px, 11vw, 156px) 0;
+  padding: clamp(86px, 11vw, 150px) 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
-  gap: clamp(44px, 7vw, 94px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: clamp(34px, 7vw, 86px);
+  align-items: end;
 }
 .brand-build .lead { color: rgba(22,39,80,.74); }
-.build-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 34px;
-}
-.build-points span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 34px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(253,252,251,.52);
-  border: 1px solid rgba(22,39,80,.09);
-  color: rgba(22,39,80,.66);
-  font-size: 13px;
-}
-.build-points span::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--color-dust);
-}
-.system-map {
-  position: relative;
-  aspect-ratio: 360 / 420;
-  min-height: 420px;
-  border: 1px solid rgba(22,39,80,.12);
-  background:
-    radial-gradient(circle at 50% 44%, rgba(253,252,251,.82), rgba(253,252,251,.28) 42%, transparent 70%),
-    linear-gradient(180deg, rgba(253,252,251,.36), rgba(253,252,251,.12));
-  overflow: hidden;
-  box-shadow: 0 32px 90px rgba(22,39,80,.08);
-}
-.system-map::before, .system-map::after {
-  content: "";
-  position: absolute;
-  border: 1px solid rgba(22,39,80,.09);
+.orbit {
+  aspect-ratio: 1;
+  border: 1px solid rgba(22,39,80,.16);
   border-radius: 50%;
-  inset: 70px 46px;
-}
-.system-map::after { inset: 124px 100px; border-color: rgba(201,194,182,.34); }
-.system-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.system-line {
-  fill: none;
-  stroke: rgba(201,194,182,.78);
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 460;
-  stroke-dashoffset: 460;
-  transition: stroke-dashoffset 1.8s var(--ease-soft);
-}
-.system-line:nth-child(2) { stroke: rgba(22,39,80,.24); transition-delay: .15s; }
-.system-line:nth-child(3) { stroke: rgba(201,194,182,.56); transition-delay: .25s; }
-.system-map.visible .system-line { stroke-dashoffset: 0; }
-.system-node {
-  position: absolute;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(22,39,80,.13);
-  background: rgba(253,252,251,.74);
-  box-shadow: 0 20px 60px rgba(22,39,80,.08);
+  position: relative;
 }
-.system-node--center {
-  width: 96px;
-  height: 126px;
-  left: 50%;
-  top: 48%;
-  transform: translate(-50%, -50%);
-  color: var(--color-indigo);
-}
-.system-node--center .logo { width: 42px; height: 55px; }
-.system-node--small {
-  width: 116px;
-  min-height: 58px;
-  padding: 12px;
-  font-family: var(--font-heading);
-  font-weight: 650;
-  font-size: 13px;
-  line-height: 1.15;
-  text-align: center;
-  color: rgba(22,39,80,.80);
-}
-.system-node--one { left: 28px; top: 54px; }
-.system-node--two { right: 28px; top: 84px; }
-.system-node--three { left: 88px; bottom: 46px; }
-.system-pulse {
+.orbit::before, .orbit::after {
+  content: "";
   position: absolute;
-  z-index: 4;
-  width: 10px;
-  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(22,39,80,.12);
+}
+.orbit::before { inset: 44px; }
+.orbit::after { inset: 88px; background: rgba(253,252,251,.34); }
+.orbit-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--color-dust);
-  box-shadow: 0 0 0 8px rgba(201,194,182,.18);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+  animation: breathe 4s ease-in-out infinite;
 }
-.system-caption {
-  position: absolute;
-  right: 24px;
-  bottom: 22px;
-  max-width: 150px;
-  font-size: 12px;
-  line-height: 1.45;
-  color: rgba(22,39,80,.54);
-}
+.orbit-dot:nth-child(1) { top: 26px; left: 50%; }
+.orbit-dot:nth-child(2) { right: 36px; top: 48%; animation-delay: .5s; }
+.orbit-dot:nth-child(3) { bottom: 42px; left: 34%; animation-delay: 1s; }
+.orbit .logo { width: 36px; height: 47px; z-index: 2; color: var(--color-indigo); }
 .principles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  margin-top: 46px;
+  margin-top: 44px;
 }
 .principle {
-  position: relative;
-  min-height: 198px;
-  padding: 27px;
+  min-height: 185px;
+  padding: 25px;
   border-top: 1px solid rgba(22,39,80,.18);
-  background: linear-gradient(180deg, rgba(220,231,242,.42), rgba(253,252,251,.24));
-}
-.principle::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 42px;
-  height: 1px;
-  background: var(--color-dust);
+  background: linear-gradient(180deg, rgba(220,231,242,.45), rgba(253,252,251,.2));
 }
 .principle h3 { font-size: 22px; }
 .principle p { margin: 14px 0 0; color: rgba(22,39,80,.68); font-size: 15px; line-height: 1.62; }
@@ -633,18 +419,17 @@ h3 {
 .contact-inner {
   width: var(--page);
   margin: 0 auto;
-  padding: clamp(88px, 11vw, 150px) 0;
+  padding: clamp(86px, 11vw, 148px) 0;
   display: grid;
-  grid-template-columns: minmax(0,1fr) 380px;
-  gap: clamp(42px, 8vw, 96px);
+  grid-template-columns: minmax(0,1fr) 360px;
+  gap: clamp(40px, 8vw, 92px);
 }
 .contact .section-label { position: static; color: rgba(253,252,251,.55); }
-.contact .section-label::before { background: var(--color-dust); }
 .contact h2 { color: var(--color-white); }
 .contact p { color: rgba(253,252,251,.72); }
 .contact-box {
-  border-left: 1px solid rgba(201,194,182,.66);
-  padding-left: 28px;
+  border-left: 1px solid rgba(201,194,182,.6);
+  padding-left: 26px;
   align-self: end;
 }
 .contact-row { margin-bottom: 18px; }
@@ -670,7 +455,7 @@ h3 {
 .footer-inner {
   width: var(--page);
   margin: 0 auto;
-  min-height: 136px;
+  min-height: 132px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -689,13 +474,12 @@ h3 {
 .footer-brand .logo { width: 20px; height: 26px; }
 .footer-links { display: flex; gap: 22px; font-size: 13px; color: rgba(253,252,251,.72); }
 .legal-main {
-  width: var(--narrow);
+  width: min(850px, calc(100vw - 40px));
   margin: 0 auto;
-  padding: 140px 0 92px;
+  padding: 132px 0 90px;
 }
-.legal-head { padding-bottom: 40px; border-bottom: 1px solid rgba(22,39,80,.12); }
-.legal-head h1 { font-size: clamp(44px, 8vw, 86px); }
-.legal-head p { margin: 18px 0 0; color: rgba(22,39,80,.68); max-width: 690px; }
+.legal-head { padding-bottom: 38px; border-bottom: 1px solid rgba(22,39,80,.12); }
+.legal-head p { margin: 18px 0 0; color: rgba(22,39,80,.68); max-width: 660px; }
 .legal-content { padding-top: 42px; }
 .legal-content section { margin-bottom: 42px; }
 .legal-content h2 {
@@ -717,26 +501,27 @@ h3 {
 }
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .82s var(--ease), transform .82s var(--ease);
+  transform: translateY(18px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
   transition-delay: var(--d, 0ms);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fillmark { to { fill: currentColor; } }
-@keyframes line { to { stroke-dashoffset: -520; } }
-@media (max-width: 960px) {
-  :root { --page: min(100%, calc(100vw - 32px)); --narrow: min(100%, calc(100vw - 32px)); }
+@keyframes line { to { stroke-dashoffset: -420; } }
+@keyframes breathe { 50% { transform: scale(1.7); opacity: .55; } }
+@media (max-width: 880px) {
+  :root { --page: min(100%, calc(100vw - 28px)); }
   body { font-size: 16px; }
-  .site-header { padding: 12px 16px; }
+  .site-header { padding: 12px 14px; }
   .brand { font-size: 10px; letter-spacing: .10em; }
   .logo { width: 20px; height: 26px; flex-basis: 20px; }
   .menu-button { display: block; }
   .nav {
     position: fixed;
-    left: 16px;
-    right: 16px;
-    top: 64px;
+    left: 14px;
+    right: 14px;
+    top: 62px;
     display: grid;
     gap: 0;
     padding: 10px;
@@ -752,43 +537,38 @@ h3 {
   }
   .nav-open .nav { opacity: 1; pointer-events: auto; transform: translateY(0); }
   .nav a { padding: 14px 12px; font-size: 15px; }
-  .hero { min-height: auto; padding: 108px 16px 76px; }
-  .hero-inner, .section-grid, .brand-build-inner, .contact-inner { grid-template-columns: 1fr; }
-  .hero-panel { min-height: 300px; max-width: 390px; }
-  .hero-symbol, .hero-symbol .logo { width: 68px; height: 89px; }
-  h1 { font-size: clamp(44px, 13vw, 78px); }
-  .section { padding: 76px 0; }
+  .hero { min-height: auto; padding: 104px 14px 70px; }
+  .hero-inner, .section-grid, .brand-build-inner, .contact-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-mark, .hero-mark .logo { width: 42px; height: 55px; }
+  .hero-note { max-width: none; margin-top: 10px; }
+  h1 { font-size: clamp(42px, 13vw, 78px); }
+  .section { padding: 74px 0; }
   .section-label { position: static; }
-  .copy-cols, .principles, .intro-card { grid-template-columns: 1fr; }
-  .area-card { grid-template-columns: 1fr; gap: 12px; padding: 26px; }
-  .brand-build-inner, .contact-inner { padding: 78px 0; }
-  .system-map { max-width: 390px; min-height: 360px; }
-  .system-node--small { width: 104px; font-size: 12px; }
-  .system-node--one { left: 18px; top: 46px; }
-  .system-node--two { right: 18px; top: 72px; }
-  .system-node--three { left: 68px; bottom: 40px; }
-  .contact-box { padding-left: 22px; }
-  .footer-inner { min-height: 144px; align-items: flex-start; justify-content: center; flex-direction: column; padding: 28px 0; }
+  .copy-cols, .principles { grid-template-columns: 1fr; }
+  .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+  .brand-build-inner, .contact-inner { padding: 74px 0; }
+  .orbit { max-width: 260px; }
+  .contact-box { padding-left: 20px; }
+  .footer-inner { min-height: 140px; align-items: flex-start; justify-content: center; flex-direction: column; padding: 26px 0; }
   .footer-links { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
   .mark-draw path { fill: currentColor; stroke-dashoffset: 0; }
-  .system-line { stroke-dashoffset: 0; }
-  .system-pulse { display: none; }
 }
 </style>
 <title>Hois Studios · Inh. Jannik Hois</title>
-<meta name="description" content="Hois Studios ist das Einzelunternehmen von Jannik Hois und der organisatorische Rahmen für Content, Medienarbeit und eigene Markenprojekte.">
+<meta name="description" content="Hois Studios ist das Einzelunternehmen von Jannik Hois und der organisatorische Rahmen für Verwaltung, Content-Arbeit und eigene Markenprojekte.">
 <meta property="og:title" content="Hois Studios">
-<meta property="og:description" content="Hois Studios ist das Einzelunternehmen von Jannik Hois und der organisatorische Rahmen für Content, Medienarbeit und eigene Markenprojekte.">
+<meta property="og:description" content="Verwaltung, Content und Aufbau eigener Markenprojekte.">
 <meta property="og:type" content="website">
 </head>
 <body class="home">
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
 <div class="progress" aria-hidden="true"></div>
-
 <header class="site-header">
   <div class="nav-wrap">
     <a class="brand" href="index.html" aria-label="Hois Studios Startseite"><svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
@@ -812,23 +592,21 @@ h3 {
     </svg>
     <div class="hero-inner">
       <div>
+        <div class="hero-mark reveal"><svg class="logo mark-draw" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+  <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
+</svg></div>
         <p class="kicker reveal">Hois Studios · Inh. Jannik Hois</p>
-        <h1 id="hero-title" class="reveal">Ein Rahmen für Content und Markenaufbau.</h1>
-        <p class="hero-text reveal">Hois Studios ist mein Einzelunternehmen und bildet den organisatorischen Rahmen für unterschiedliche selbstständige Tätigkeiten. Dazu gehören Content- und Medienleistungen sowie eigene Markenprojekte, die Schritt für Schritt entstehen.</p>
+        <h1 id="hero-title" class="reveal">Verwaltung. Content. Markenaufbau.</h1>
+        <p class="hero-text reveal">Hois Studios ist der formelle Rahmen für meine unternehmerischen Tätigkeiten. Hier laufen Organisation, Verträge, Rechnungen und der Aufbau eigener Projekte zusammen.</p>
         <div class="hero-actions reveal">
           <a class="button-link" href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a>
           <a class="text-link" href="#bereiche">Bereiche ansehen</a>
         </div>
       </div>
-      <aside class="hero-panel reveal" aria-label="Kurzprofil Hois Studios">
-        <div class="hero-symbol"><svg class="logo mark-draw" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
-  <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-</svg></div>
-        <div class="hero-panel-meta">
-          <span>Struktur</span>
-          <strong>Dachmarke, Verwaltung und geschäftlicher Rahmen.</strong>
-          <p>Ruhig geführt, klar getrennt und auf langfristige Entwicklung ausgelegt.</p>
-        </div>
+      <aside class="hero-note reveal" aria-label="Kurzprofil">
+        <span>Status</span>
+        <strong>Einzelunternehmen mit eigenständigen Tätigkeitsbereichen.</strong>
+        <p>Ruhig geführt, klar getrennt und langfristig aufgebaut.</p>
       </aside>
     </div>
   </section>
@@ -838,14 +616,10 @@ h3 {
       <div class="section-label reveal">Profil</div>
       <div>
         <h2 id="profil-title" class="reveal">Ein klarer Rahmen im Hintergrund.</h2>
-        <p class="lead reveal">Hois Studios ist die Verwaltungsmarke meines Einzelunternehmens. Die Seite gibt einen ruhigen Überblick darüber, wofür der Name steht und welche Tätigkeiten darunter geführt werden.</p>
-        <div class="intro-card reveal">
-          <span>Jannik Hois</span>
-          <p>Ich arbeite selbstständig in unterschiedlichen Bereichen. Über Hois Studios bündle ich die organisatorische Seite: Kommunikation, Rechnungen, Verträge, Konten, Behörden und die grundlegende Struktur hinter den einzelnen Tätigkeiten.</p>
-        </div>
+        <p class="lead reveal">Hois Studios ist die Verwaltungsmarke meines Einzelunternehmens. Die Seite erklärt knapp, wofür der Name steht und welche Tätigkeiten darunter aufgebaut werden.</p>
         <div class="copy-cols reveal">
-          <p>Nach außen steht Hois Studios für den formellen geschäftlichen Rahmen. Die einzelnen Bereiche können eigene Namen, eigene Gestaltung und eigene Kommunikation bekommen.</p>
-          <p>Der Anspruch ist bewusst schlicht: sauber organisieren, Bereiche getrennt führen und Projekte so entwickeln, dass sie langfristig tragfähig bleiben.</p>
+          <p>Nach außen steht Hois Studios für die geschäftliche Grundlage von Jannik Hois. Intern werden einzelne Bereiche unter eigenen Namen geführt.</p>
+          <p>Der Anspruch ist einfach: sauber organisieren, getrennt denken und Projekte so entwickeln, dass sie langfristig tragfähig bleiben.</p>
         </div>
       </div>
     </div>
@@ -856,30 +630,27 @@ h3 {
       <div class="section-label reveal">Bereiche</div>
       <div>
         <h2 id="bereiche-title" class="reveal">Die Tätigkeiten sind bewusst getrennt.</h2>
-        <p class="lead reveal">Hois Studios übernimmt die Verwaltung. Die operative Arbeit findet in einzelnen Tätigkeitsbereichen statt.</p>
+        <p class="lead reveal">Hois Studios bündelt die Verwaltung. Die Arbeit selbst findet in einzelnen Bereichen statt.</p>
         <div class="area-list">
-          <article class="area-card reveal" data-tilt>
+          <article class="area-card reveal">
             <div class="area-number">01</div>
             <div>
               <h3>Hois Media</h3>
-              <p>Content- und Medienleistungen mit Fokus auf die Bearbeitung, Aufbereitung und Veröffentlichung digitaler Formate. Die Arbeit bleibt projektbezogen; Details zu Auftraggebern werden nicht öffentlich aufgeführt.</p>
-              <span class="area-tag">Content · Schnitt · digitale Formate</span>
+              <p>Content-Arbeit im Bereich Social Media. Aktuell liegt der Fokus auf dem Schnitt und der Veröffentlichung kurzer Videoformate aus Podcast-Inhalten, unter anderem für „Ohne Aktien Wird Schwer“.</p>
             </div>
           </article>
-          <article class="area-card reveal" data-tilt>
+          <article class="area-card reveal">
             <div class="area-number">02</div>
             <div>
               <h3>Eigene Markenprojekte</h3>
-              <p>Aufbau eigener Marken- und Produktideen. Im Mittelpunkt stehen Positionierung, Gestaltung, Prozesse und eine klare ästhetische Grundlage, bevor einzelne Projekte sichtbar werden.</p>
-              <span class="area-tag">Marke · Produkt · Gestaltung</span>
+              <p>Der zweite Bereich ist der Aufbau einer eigenen hochwertigen Marke. Der Name steht noch nicht fest. Im Mittelpunkt stehen Mode, Gestaltung, ausgewählte Produkte und eine klare ästhetische Welt.</p>
             </div>
           </article>
-          <article class="area-card reveal" data-tilt>
+          <article class="area-card reveal">
             <div class="area-number">03</div>
             <div>
               <h3>Verwaltung</h3>
-              <p>Hois Studios bleibt der gemeinsame Rahmen für Korrespondenz, Rechnungen, Verträge, grundlegende Organisation und die kaufmännische Struktur der Tätigkeiten.</p>
-              <span class="area-tag">Struktur · Ordnung · Grundlage</span>
+              <p>Hois Studios bleibt der organisatorische Rahmen: Korrespondenz, Verträge, Rechnungen, Behörden, Konten und grundlegende Struktur.</p>
             </div>
           </article>
         </div>
@@ -892,29 +663,13 @@ h3 {
       <div>
         <p class="eyebrow reveal">Aufbau</p>
         <h2 id="aufbau-title" class="reveal">Nicht alles muss sofort sichtbar sein.</h2>
-        <p class="lead reveal">Ein Teil der Arbeit entsteht bewusst im Hintergrund. Hois Studios gibt dafür die Struktur: ruhig, geordnet und ohne unnötige Außenwirkung.</p>
-        <div class="build-points reveal" aria-label="Zentrale Funktionen">
-          <span>Verwaltung</span>
-          <span>Medienarbeit</span>
-          <span>Markenaufbau</span>
-        </div>
+        <p class="lead reveal">Ein Teil der Projekte entsteht bewusst im Hintergrund. Hois Studios gibt dafür die Struktur: ruhig, geordnet und ohne unnötige Außenwirkung.</p>
       </div>
-      <div class="system-map reveal" data-system-map aria-hidden="true">
-        <svg class="system-lines" viewBox="0 0 360 420" preserveAspectRatio="none">
-          <path id="route-admin" class="system-line" d="M180 204 C118 176 92 120 86 82"></path>
-          <path id="route-media" class="system-line" d="M180 204 C230 164 274 138 300 112"></path>
-          <path id="route-brand" class="system-line" d="M180 204 C156 252 146 310 146 356"></path>
-        </svg>
-        <div class="system-node system-node--center"><svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+      <div class="orbit reveal" aria-hidden="true">
+        <span class="orbit-dot"></span><span class="orbit-dot"></span><span class="orbit-dot"></span>
+        <svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
   <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-</svg></div>
-        <div class="system-node system-node--small system-node--one">Verwaltung</div>
-        <div class="system-node system-node--small system-node--two">Hois Media</div>
-        <div class="system-node system-node--small system-node--three">Markenprojekte</div>
-        <span class="system-pulse" data-route="route-admin" data-speed=".18" data-offset=".06"></span>
-        <span class="system-pulse" data-route="route-media" data-speed=".15" data-offset=".36"></span>
-        <span class="system-pulse" data-route="route-brand" data-speed=".13" data-offset=".68"></span>
-        <p class="system-caption">Die Punkte zeigen die Verbindung der Bereiche zum organisatorischen Dach.</p>
+</svg>
       </div>
     </div>
   </section>
@@ -938,7 +693,7 @@ h3 {
       <div>
         <div class="section-label reveal">Kontakt</div>
         <h2 id="kontakt-title" class="reveal">Für geschäftliche Anliegen.</h2>
-        <p class="lead reveal">Kontakt bitte direkt per E-Mail. Die Website nutzt kein Kontaktformular, kein Tracking und keine eigenen Cookies.</p>
+        <p class="lead reveal">Kontakt bitte direkt per E-Mail. Die Website nutzt kein Kontaktformular, kein Tracking und keine Cookies.</p>
       </div>
       <div class="contact-box reveal">
         <div class="contact-row"><span>E-Mail</span><a href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a></div>
@@ -948,7 +703,6 @@ h3 {
     </div>
   </section>
 </main>
-
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand"><svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
@@ -960,29 +714,19 @@ h3 {
     </nav>
   </div>
 </footer>
-<script src="script.js" defer></script>
 <script>
 (function(){
-  if (window.__HOIS_STUDIOS_READY__) return;
-  window.__HOIS_STUDIOS_READY__ = true;
-
   const body = document.body;
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('.menu-button');
-  const navLinks = Array.from(document.querySelectorAll('.nav a[href*="#"]'));
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const clamp = (min, value, max) => Math.min(Math.max(value, min), max);
-
-  function updateScrollState(){
+  const progress = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     document.documentElement.style.setProperty('--progress', Math.min(100, y / max * 100) + '%');
-    document.documentElement.style.setProperty('--hero-shift', clamp(0, y, 520) + 'px');
     if (header) header.classList.toggle('scrolled', y > 12);
-  }
-  updateScrollState();
-  window.addEventListener('scroll', updateScrollState, { passive: true });
+  };
+  progress();
+  window.addEventListener('scroll', progress, { passive: true });
 
   if (menuButton) {
     menuButton.addEventListener('click', function(){
@@ -998,73 +742,23 @@ h3 {
     });
   }
 
-  const revealItems = document.querySelectorAll('.reveal');
+  const items = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window)) {
-    revealItems.forEach(el => el.classList.add('visible'));
-  } else {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: .13, rootMargin: '0px 0px -8% 0px' });
-    revealItems.forEach((el, i) => {
-      if (i < 12) el.style.setProperty('--d', Math.min(i * 60, 360) + 'ms');
-      revealObserver.observe(el);
-    });
+    items.forEach(el => el.classList.add('visible'));
+    return;
   }
-
-  if (navLinks.length && 'IntersectionObserver' in window) {
-    const sections = navLinks
-      .map(link => document.querySelector(link.getAttribute('href').slice(link.getAttribute('href').indexOf('#'))))
-      .filter(Boolean);
-    const activeObserver = new IntersectionObserver((entries) => {
-      const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const id = visible.target.id;
-      navLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href').endsWith('#' + id)));
-    }, { threshold: [.22, .38, .58], rootMargin: '-20% 0px -55% 0px' });
-    sections.forEach(section => activeObserver.observe(section));
-  }
-
-  document.querySelectorAll('[data-tilt]').forEach(card => {
-    card.addEventListener('pointermove', event => {
-      const rect = card.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mx', x.toFixed(2) + '%');
-      card.style.setProperty('--my', y.toFixed(2) + '%');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
     });
+  }, { threshold: .13, rootMargin: '0px 0px -8% 0px' });
+  items.forEach((el, i) => {
+    if (i < 8) el.style.setProperty('--d', Math.min(i * 55, 240) + 'ms');
+    io.observe(el);
   });
-
-  function animateSystemMap(){
-    if (reduceMotion) return;
-    const maps = Array.from(document.querySelectorAll('[data-system-map]'));
-    if (!maps.length) return;
-
-    function frame(time){
-      maps.forEach(map => {
-        const rect = map.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-        map.querySelectorAll('.system-pulse').forEach((pulse, index) => {
-          const route = map.querySelector('#' + pulse.dataset.route);
-          if (!route || !route.getTotalLength) return;
-          const length = route.getTotalLength();
-          const speed = Number(pulse.dataset.speed || .12);
-          const offset = Number(pulse.dataset.offset || index * .23);
-          const t = ((time / 1000) * speed + offset) % 1;
-          const point = route.getPointAtLength(length * t);
-          pulse.style.left = (point.x / 360 * rect.width) + 'px';
-          pulse.style.top = (point.y / 420 * rect.height) + 'px';
-        });
-      });
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-  animateSystemMap();
 })();
 </script>
 </body>
