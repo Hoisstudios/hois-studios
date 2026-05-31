@@ -360,108 +360,135 @@ h3 {
 .brand-build .lead { color: rgba(22,39,80,.74); }
 
 .build-map {
-  --mx: 0px;
-  --my: 0px;
-  --build-shift: 0px;
   aspect-ratio: 1;
-  width: min(330px, 100%);
+  width: min(340px, 100%);
   justify-self: end;
   position: relative;
   display: grid;
   place-items: center;
-  border-radius: 42px;
-  border: 1px solid rgba(22,39,80,.11);
+  border-radius: 50%;
+  border: 1px solid rgba(22,39,80,.13);
   background:
-    radial-gradient(circle at 50% 44%, rgba(253,252,251,.66), rgba(253,252,251,.25) 52%, transparent 72%),
-    linear-gradient(145deg, rgba(253,252,251,.26), rgba(22,39,80,.035));
-  box-shadow: inset 0 1px 0 rgba(253,252,251,.42);
-  overflow: hidden;
+    radial-gradient(circle at 50% 50%, rgba(253,252,251,.84) 0 23%, rgba(253,252,251,.45) 24% 43%, transparent 44%),
+    radial-gradient(circle at 50% 50%, transparent 0 61%, rgba(253,252,251,.30) 62% 100%),
+    linear-gradient(145deg, rgba(253,252,251,.34), rgba(22,39,80,.035));
+  box-shadow:
+    inset 0 1px 0 rgba(253,252,251,.58),
+    0 28px 70px rgba(22,39,80,.07);
+  overflow: visible;
+  isolation: isolate;
 }
 .build-map::before,
 .build-map::after {
   content: "";
   position: absolute;
+  inset: 28px;
   border-radius: 50%;
+  border: 1px solid rgba(22,39,80,.12);
   pointer-events: none;
 }
-.build-map::before {
-  inset: 26px;
-  border: 1px solid rgba(22,39,80,.13);
-}
 .build-map::after {
-  inset: 78px;
-  border: 1px solid rgba(201,194,182,.42);
-  background: rgba(253,252,251,.28);
+  inset: 88px;
+  border-color: rgba(201,194,182,.58);
+  background: rgba(253,252,251,.38);
 }
 .build-line {
   position: absolute;
-  inset: 22px;
-  width: calc(100% - 44px);
-  height: calc(100% - 44px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
   overflow: visible;
-  transform: translate(var(--line-x, 0px), var(--line-y, 0px));
-  transition: transform .28s var(--ease);
 }
-.build-path {
+.build-line circle,
+.build-line path {
   fill: none;
-  stroke: rgba(201,194,182,.88);
-  stroke-width: 1.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
   vector-effect: non-scaling-stroke;
 }
-.build-path-soft { stroke: rgba(22,39,80,.20); stroke-width: 1; }
-.build-map.visible .build-path { animation: draw 1.8s var(--ease) .18s forwards; }
-.build-map.visible .build-path-soft { animation-delay: .52s; }
+.build-ring-path {
+  stroke: rgba(22,39,80,.18);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.build-connector {
+  stroke: rgba(22,39,80,.16);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.build-flow {
+  stroke: rgba(201,194,182,.92);
+  stroke-width: 1.55;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 10px rgba(201,194,182,.28));
+}
+.build-map.visible .build-ring-path { animation: buildDraw 1.35s var(--ease) .08s forwards; }
+.build-map.visible .build-connector { animation: buildDraw 1.45s var(--ease) .36s forwards; }
+.build-map.visible .build-flow { animation: buildDraw 1.9s var(--ease) .62s forwards; }
 .build-core {
   position: relative;
   z-index: 3;
-  width: 76px;
-  height: 76px;
+  width: 88px;
+  height: 88px;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: rgba(253,252,251,.72);
-  border: 1px solid rgba(201,194,182,.48);
-  box-shadow: 0 18px 45px rgba(22,39,80,.08);
-  transform: translate(var(--core-x, 0px), var(--core-y, 0px));
-  transition: transform .28s var(--ease), box-shadow .28s var(--ease);
+  color: var(--color-indigo);
+  background: rgba(253,252,251,.86);
+  border: 1px solid rgba(201,194,182,.68);
+  box-shadow:
+    0 18px 48px rgba(22,39,80,.10),
+    inset 0 1px 0 rgba(253,252,251,.90);
+  opacity: 0;
+  transform: scale(.94);
 }
-.build-map:hover .build-core { box-shadow: 0 22px 58px rgba(22,39,80,.12); }
-.build-logo { width: 30px; height: 39px; object-fit: contain; }
+.build-map.visible .build-core { animation: buildCore .8s var(--ease) .58s forwards; }
+.build-logo { width: 36px; height: 47px; }
+.build-logo path { fill: currentColor; }
 .build-point {
   position: absolute;
   z-index: 4;
   left: var(--x);
   top: var(--y);
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   border-radius: 999px;
   background: var(--color-dust);
-  box-shadow: 0 0 0 7px rgba(201,194,182,.14), 0 0 24px rgba(201,194,182,.36);
-  transform: translate(-50%, -50%);
-  animation: pointPulse 5.8s ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
+  box-shadow:
+    0 0 0 8px rgba(201,194,182,.16),
+    0 0 26px rgba(201,194,182,.40);
+  transform: translate(-50%, -50%) scale(.7);
+  opacity: 0;
+}
+.build-map.visible .build-point {
+  animation: pointIn .55s var(--ease) forwards, pointPulse 5.8s ease-in-out infinite;
+  animation-delay: var(--delay, 0s), calc(var(--delay, 0s) + .7s);
 }
 .build-point span {
   position: absolute;
-  left: 22px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(253,252,251,.58);
+  border: 1px solid rgba(22,39,80,.08);
   font-family: var(--font-heading);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 720;
-  letter-spacing: .15em;
+  letter-spacing: .13em;
   text-transform: uppercase;
-  color: rgba(22,39,80,.56);
+  color: rgba(22,39,80,.62);
   white-space: nowrap;
+  box-shadow: 0 10px 25px rgba(22,39,80,.04);
 }
-.build-point.is-left span { left: auto; right: 22px; text-align: right; }
-.build-point.is-top span { left: 50%; top: -30px; transform: translateX(-50%); }
-.build-point.is-bottom span { left: 50%; top: 25px; transform: translateX(-50%); }
+.build-point.is-left span { left: auto; right: 20px; text-align: right; }
+.build-point.is-top span { left: 50%; top: -34px; transform: translateX(-50%); }
+.build-point.is-bottom span { left: 50%; top: 24px; transform: translateX(-50%); }
 .principles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -578,7 +605,10 @@ h3 {
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fillmark { to { fill: currentColor; } }
 @keyframes line { to { stroke-dashoffset: -420; } }
-@keyframes pointPulse { 50% { transform: translate(-50%, -50%) scale(1.38); opacity: .72; } }
+@keyframes buildDraw { to { stroke-dashoffset: 0; } }
+@keyframes buildCore { to { opacity: 1; transform: scale(1); } }
+@keyframes pointIn { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes pointPulse { 50% { transform: translate(-50%, -50%) scale(1.22); opacity: .78; } }
 @media (max-width: 880px) {
   :root { --page: min(100%, calc(100vw - 28px)); }
   body { font-size: 16px; }
@@ -628,4 +658,7 @@ h3 {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
   .mark-draw path { fill: currentColor; stroke-dashoffset: 0; }
+  .build-ring-path, .build-connector, .build-flow { stroke-dashoffset: 0; }
+  .build-core { opacity: 1; transform: scale(1); }
+  .build-point { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
