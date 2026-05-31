@@ -202,12 +202,79 @@ img, svg { display: block; max-width: 100%; }
   width: var(--page);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: clamp(34px, 8vw, 90px);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 370px);
+  gap: clamp(42px, 8vw, 96px);
+  align-items: center;
+}
+.hero-copy { max-width: 840px; }
+.hero-side {
+  justify-self: end;
+  width: min(100%, 370px);
+  display: grid;
+  gap: 28px;
   align-items: end;
 }
-.hero-mark { width: 48px; height: 63px; margin-bottom: 26px; color: var(--color-white); }
-.hero-mark .logo { width: 48px; height: 63px; flex-basis: 48px; }
+.hero-logo-stage {
+  position: relative;
+  width: clamp(210px, 24vw, 304px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  color: var(--color-white);
+}
+.hero-logo-stage::before,
+.hero-logo-stage::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(253,252,251,.16);
+}
+.hero-logo-stage::before { inset: 7%; }
+.hero-logo-stage::after { inset: 24%; background: rgba(253,252,251,.035); }
+.hero-logo-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(201,194,182,.42);
+  opacity: .78;
+  transform: scale(.86);
+  animation: ring-arrive 1.2s var(--ease) .15s forwards, ring-breathe 7s ease-in-out 1.5s infinite;
+}
+.hero-logo-line {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,194,182,.55), transparent);
+  transform: scaleX(0);
+  animation: line-arrive 1.1s var(--ease) 1.95s forwards;
+}
+.hero-logo-lines,
+.hero-logo-final {
+  position: absolute;
+  width: 43%;
+  min-width: 118px;
+  max-width: 142px;
+  overflow: visible;
+  z-index: 2;
+}
+.hero-logo-lines path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 16px 22px rgba(0,0,0,.12));
+}
+.hero-logo-lines .script-left { animation: segment-draw .85s var(--ease) .28s forwards; }
+.hero-logo-lines .script-right { animation: segment-draw .9s var(--ease) .95s forwards; }
+.hero-logo-lines .script-bridge { animation: segment-draw .75s var(--ease) 1.68s forwards; }
+.hero-logo-final { opacity: 0; transform: scale(.985); animation: final-mark-in .65s var(--ease) 2.18s forwards; }
+.hero-logo-final path { fill: currentColor; }
 .kicker, .eyebrow {
   margin: 0 0 14px;
   font-family: var(--font-heading);
@@ -271,7 +338,8 @@ h3 {
 .hero-note {
   border-left: 1px solid rgba(201,194,182,.58);
   padding-left: 22px;
-  max-width: 260px;
+  max-width: 292px;
+  justify-self: end;
 }
 .hero-note span {
   display: block;
@@ -360,39 +428,116 @@ h3 {
   margin: 0 auto;
   padding: clamp(86px, 11vw, 150px) 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: clamp(34px, 7vw, 86px);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 430px);
+  gap: clamp(42px, 7vw, 94px);
+  align-items: center;
 }
 .brand-build .lead { color: rgba(22,39,80,.74); }
-.orbit {
+.build-map {
+  position: relative;
+  width: min(430px, 100%);
   aspect-ratio: 1;
-  border: 1px solid rgba(22,39,80,.16);
+  justify-self: end;
+  isolation: isolate;
+}
+.build-map::before {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253,252,251,.72), rgba(253,252,251,.22) 48%, transparent 70%);
+  opacity: .72;
+}
+.build-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(22,39,80,.13);
+  inset: 2%;
+  transform: scale(.94);
+  opacity: 0;
+}
+.build-ring-two { inset: 20%; border-color: rgba(22,39,80,.10); }
+.build-map.visible .build-ring-one { animation: ring-arrive .9s var(--ease) .05s forwards, ring-breathe 7s ease-in-out 1s infinite; }
+.build-map.visible .build-ring-two { animation: ring-arrive .9s var(--ease) .18s forwards, ring-breathe 7s ease-in-out 1.4s infinite reverse; }
+.build-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: visible;
+}
+.build-line {
+  fill: none;
+  stroke: rgba(22,39,80,.26);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.build-map.visible .build-line-top { animation: segment-draw .72s var(--ease) .32s forwards; }
+.build-map.visible .build-line-right { animation: segment-draw .72s var(--ease) .48s forwards; }
+.build-map.visible .build-line-left { animation: segment-draw .72s var(--ease) .64s forwards; }
+.build-core {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 132px;
+  height: 132px;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   display: grid;
   place-items: center;
-  position: relative;
-}
-.orbit::before, .orbit::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
+  align-content: center;
+  gap: 9px;
+  background: rgba(253,252,251,.82);
   border: 1px solid rgba(22,39,80,.12);
+  box-shadow: 0 24px 70px rgba(22,39,80,.10);
 }
-.orbit::before { inset: 44px; }
-.orbit::after { inset: 88px; background: rgba(253,252,251,.34); }
-.orbit-dot {
+.build-core .logo { width: 38px; height: 50px; color: var(--color-indigo); }
+.build-core span {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 720;
+  color: rgba(22,39,80,.64);
+}
+.build-node {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-dust);
-  animation: breathe 4s ease-in-out infinite;
+  z-index: 2;
+  width: 138px;
+  min-height: 76px;
+  padding: 15px 16px;
+  border: 1px solid rgba(22,39,80,.13);
+  border-radius: 22px;
+  background: rgba(253,252,251,.72);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 52px rgba(22,39,80,.08);
+  opacity: 0;
+  transform: translate(var(--tx, 0), var(--ty, 0)) scale(.96);
 }
-.orbit-dot:nth-child(1) { top: 26px; left: 50%; }
-.orbit-dot:nth-child(2) { right: 36px; top: 48%; animation-delay: .5s; }
-.orbit-dot:nth-child(3) { bottom: 42px; left: 34%; animation-delay: 1s; }
-.orbit .logo { width: 36px; height: 47px; z-index: 2; color: var(--color-indigo); }
+.build-node span {
+  display: block;
+  margin-bottom: 5px;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: .16em;
+  color: rgba(22,39,80,.46);
+}
+.build-node strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  line-height: 1.15;
+  color: var(--color-indigo);
+}
+.build-node-media { top: 22px; left: 50%; --tx: -50%; --ty: 0; }
+.build-node-fashion { right: 0; bottom: 56px; --tx: 0; --ty: 0; }
+.build-node-admin { left: 0; bottom: 56px; --tx: 0; --ty: 0; }
+.build-map.visible .build-node-media { animation: node-in .72s var(--ease) .72s forwards; }
+.build-map.visible .build-node-fashion { animation: node-in .72s var(--ease) .92s forwards; }
+.build-map.visible .build-node-admin { animation: node-in .72s var(--ease) 1.12s forwards; }
 .principles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -509,6 +654,12 @@ h3 {
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fillmark { to { fill: currentColor; } }
 @keyframes line { to { stroke-dashoffset: -420; } }
+@keyframes segment-draw { to { stroke-dashoffset: 0; } }
+@keyframes final-mark-in { to { opacity: 1; transform: scale(1); } }
+@keyframes line-arrive { to { transform: scaleX(1); } }
+@keyframes ring-arrive { to { opacity: 1; transform: scale(1); } }
+@keyframes ring-breathe { 50% { transform: scale(1.035); opacity: .68; } }
+@keyframes node-in { to { opacity: 1; transform: translate(var(--tx, 0), var(--ty, 0)) scale(1); } }
 @keyframes breathe { 50% { transform: scale(1.7); opacity: .55; } }
 @media (max-width: 880px) {
   :root { --page: min(100%, calc(100vw - 28px)); }
@@ -541,15 +692,24 @@ h3 {
   .hero-inner, .section-grid, .brand-build-inner, .contact-inner {
     grid-template-columns: 1fr;
   }
-  .hero-mark, .hero-mark .logo { width: 42px; height: 55px; }
-  .hero-note { max-width: none; margin-top: 10px; }
+  .hero-side { justify-self: start; width: 100%; gap: 22px; }
+  .hero-logo-stage { width: min(230px, 72vw); justify-self: start; }
+  .hero-logo-lines, .hero-logo-final { min-width: 98px; width: 42%; }
+  .hero-note { max-width: none; margin-top: 0; justify-self: start; }
   h1 { font-size: clamp(42px, 13vw, 78px); }
   .section { padding: 74px 0; }
   .section-label { position: static; }
   .copy-cols, .principles { grid-template-columns: 1fr; }
   .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
   .brand-build-inner, .contact-inner { padding: 74px 0; }
-  .orbit { max-width: 260px; }
+  .build-map { width: min(100%, 360px); justify-self: start; }
+  .build-core { width: 112px; height: 112px; }
+  .build-core .logo { width: 32px; height: 42px; }
+  .build-node { width: 116px; min-height: 66px; padding: 12px 13px; border-radius: 18px; }
+  .build-node strong { font-size: 13px; }
+  .build-node-media { top: 12px; }
+  .build-node-fashion { bottom: 38px; }
+  .build-node-admin { bottom: 38px; }
   .contact-box { padding-left: 20px; }
   .footer-inner { min-height: 140px; align-items: flex-start; justify-content: center; flex-direction: column; padding: 26px 0; }
   .footer-links { flex-wrap: wrap; }
@@ -558,6 +718,9 @@ h3 {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
   .mark-draw path { fill: currentColor; stroke-dashoffset: 0; }
+  .hero-logo-lines path, .build-line { stroke-dashoffset: 0; }
+  .hero-logo-final, .build-node, .build-ring { opacity: 1; transform: none; }
+  .build-node-media { transform: translateX(-50%); }
 }
 </style>
 <title>Hois Studios · Inh. Jannik Hois</title>
@@ -591,10 +754,7 @@ h3 {
       <path d="M84 536 C252 458 342 476 456 382 C548 306 566 210 690 192 C772 180 856 218 938 282"></path>
     </svg>
     <div class="hero-inner">
-      <div>
-        <div class="hero-mark reveal"><svg class="logo mark-draw" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
-  <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-</svg></div>
+      <div class="hero-copy">
         <p class="kicker reveal">Hois Studios · Inh. Jannik Hois</p>
         <h1 id="hero-title" class="reveal">Verwaltung. Content. Modemarke.</h1>
         <p class="hero-text reveal">Hois Studios ist mein Einzelunternehmen und der organisatorische Rahmen für Hois Media sowie den Aufbau einer eigenen Modemarke. Hier wird die Verwaltung der Tätigkeiten gebündelt.</p>
@@ -603,10 +763,24 @@ h3 {
           <a class="text-link" href="#bereiche">Bereiche ansehen</a>
         </div>
       </div>
-      <aside class="hero-note reveal" aria-label="Kurzprofil">
-        <span>Gedanke</span>
-        <strong>Die größte Schönheit entsteht, wenn das Innere außen sichtbar werden darf.</strong>
-        <p>~ Jannik Hois</p>
+      <aside class="hero-side reveal" aria-label="Kurzprofil">
+        <div class="hero-logo-stage" aria-hidden="true">
+          <span class="hero-logo-ring"></span>
+          <span class="hero-logo-line"></span>
+          <svg class="hero-logo-lines" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+            <path class="script-left" pathLength="1" d="M30 29 C18 29 17 48 24 59 M42 27 C43 45 43 69 42 92 C41 119 32 130 18 126 C11 124 6 119 5 111" />
+            <path class="script-right" pathLength="1" d="M77 22 C91 22 94 43 88 56 M68 31 C66 47 66 70 66 94 C66 119 76 126 94 116" />
+            <path class="script-bridge" pathLength="1" d="M4 80 C25 91 39 76 53 65 C68 53 87 57 101 69" />
+          </svg>
+          <svg class="hero-logo-final" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+            <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z" />
+          </svg>
+        </div>
+        <div class="hero-note">
+          <span>Gedanke</span>
+          <strong>Die größte Schönheit entsteht, wenn das Innere außen sichtbar werden darf.</strong>
+          <p>~ Jannik Hois</p>
+        </div>
       </aside>
     </div>
   </section>
@@ -665,11 +839,23 @@ h3 {
         <h2 id="aufbau-title" class="reveal">Aufbau braucht Ruhe, Richtung und Substanz.</h2>
         <p class="lead reveal">Nicht jedes Vorhaben muss früh nach außen getragen werden. Einige Dinge entstehen im Hintergrund – mit Geduld, Anspruch und der Überzeugung, dass aus gut geführten Projekten echter Mehrwert wachsen kann.</p>
       </div>
-      <div class="orbit reveal" aria-hidden="true">
-        <span class="orbit-dot"></span><span class="orbit-dot"></span><span class="orbit-dot"></span>
-        <svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
-  <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-</svg>
+      <div class="build-map reveal" aria-hidden="true">
+        <span class="build-ring build-ring-one"></span>
+        <span class="build-ring build-ring-two"></span>
+        <svg class="build-lines" viewBox="0 0 420 420" aria-hidden="true" focusable="false">
+          <path class="build-line build-line-top" pathLength="1" d="M210 206 C210 164 210 128 210 92" />
+          <path class="build-line build-line-right" pathLength="1" d="M218 214 C268 225 310 256 344 306" />
+          <path class="build-line build-line-left" pathLength="1" d="M202 214 C152 225 110 256 76 306" />
+        </svg>
+        <div class="build-core">
+          <svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+              <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z" />
+            </svg>
+          <span>Hois Studios</span>
+        </div>
+        <div class="build-node build-node-media"><span>01</span><strong>Hois Media</strong></div>
+        <div class="build-node build-node-fashion"><span>02</span><strong>Modemarke</strong></div>
+        <div class="build-node build-node-admin"><span>03</span><strong>Verwaltung</strong></div>
       </div>
     </div>
   </section>
