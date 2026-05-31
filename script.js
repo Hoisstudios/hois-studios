@@ -1,46 +1,43 @@
+const header = document.querySelector("[data-header]");
+const year = document.querySelector("[data-year]");
 
-(function(){
-  const body = document.body;
-  const header = document.querySelector('.site-header');
-  const menuButton = document.querySelector('.menu-button');
-  const progress = () => {
-    const y = window.scrollY || document.documentElement.scrollTop;
-    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    document.documentElement.style.setProperty('--progress', Math.min(100, y / max * 100) + '%');
-    if (header) header.classList.toggle('scrolled', y > 12);
-  };
-  progress();
-  window.addEventListener('scroll', progress, { passive: true });
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
 
-  if (menuButton) {
-    menuButton.addEventListener('click', function(){
-      const open = !body.classList.contains('nav-open');
-      body.classList.toggle('nav-open', open);
-      menuButton.setAttribute('aria-expanded', String(open));
-    });
-    document.querySelectorAll('.nav a').forEach(function(a){
-      a.addEventListener('click', function(){
-        body.classList.remove('nav-open');
-        menuButton.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
+const setHeaderState = () => {
+  if (!header) return;
+  header.classList.toggle("is-scrolled", window.scrollY > 24);
+};
 
-  const items = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    items.forEach(el => el.classList.add('visible'));
-    return;
-  }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+setHeaderState();
+window.addEventListener("scroll", setHeaderState, { passive: true });
+
+const revealElements = document.querySelectorAll(".reveal");
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: .13, rootMargin: '0px 0px -8% 0px' });
-  items.forEach((el, i) => {
-    if (i < 8) el.style.setProperty('--d', Math.min(i * 55, 240) + 'ms');
-    io.observe(el);
+  },
+  {
+    threshold: 0.16,
+    rootMargin: "0px 0px -6% 0px",
+  }
+);
+
+revealElements.forEach((element) => revealObserver.observe(element));
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   });
-})();
+});
