@@ -2,15 +2,28 @@
   const body = document.body;
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('.menu-button');
+  const buildVisual = document.querySelector('.build-visual');
+
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+  const updateBuildVisual = () => {
+    if (!buildVisual) return;
+    const rect = buildVisual.getBoundingClientRect();
+    const viewport = window.innerHeight || document.documentElement.clientHeight;
+    const progress = clamp((viewport - rect.top) / (viewport + rect.height), 0, 1);
+    buildVisual.style.setProperty('--build-progress', progress.toFixed(3));
+  };
 
   const progress = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     document.documentElement.style.setProperty('--progress', Math.min(100, y / max * 100) + '%');
     if (header) header.classList.toggle('scrolled', y > 12);
+    updateBuildVisual();
   };
   progress();
   window.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress, { passive: true });
 
   if (menuButton) {
     menuButton.addEventListener('click', function(){

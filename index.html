@@ -639,6 +639,451 @@ h3 {
   .build-logo-animated { opacity: 1; transform: none; }
   .build-logo-animated path { fill: currentColor; stroke-dashoffset: 0; }
 }
+
+/* --- Refined Tätigkeitsbereiche + Aufbau visual --- */
+.area-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 48px;
+}
+.area-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 438px;
+  padding: clamp(26px, 3vw, 36px);
+  border: 1px solid rgba(22,39,80,.11);
+  border-radius: 32px;
+  background:
+    linear-gradient(180deg, rgba(253,252,251,.92), rgba(253,252,251,.72)),
+    radial-gradient(circle at 18% 12%, rgba(220,231,242,.84), transparent 42%);
+  box-shadow: 0 22px 70px rgba(22,39,80,.055);
+  transition: transform .42s var(--ease), border-color .42s var(--ease), box-shadow .42s var(--ease), background .42s var(--ease);
+  isolation: isolate;
+}
+.area-card:nth-child(even) {
+  background:
+    linear-gradient(180deg, rgba(253,252,251,.95), rgba(220,231,242,.25)),
+    radial-gradient(circle at 85% 16%, rgba(201,194,182,.30), transparent 38%);
+}
+.area-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(253,252,251,.84), rgba(22,39,80,.13), rgba(201,194,182,.42));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: .62;
+  pointer-events: none;
+}
+.area-card::after {
+  content: "";
+  position: absolute;
+  right: -54px;
+  bottom: -54px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,194,182,.44);
+  opacity: .65;
+  transition: transform .55s var(--ease), opacity .55s var(--ease);
+}
+.area-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(22,39,80,.20);
+  box-shadow: 0 32px 88px rgba(22,39,80,.095);
+}
+.area-card:hover::after { transform: scale(1.08); opacity: .9; }
+.area-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.area-number {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 760;
+  letter-spacing: .14em;
+  color: rgba(22,39,80,.46);
+}
+.area-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 11px;
+  border: 1px solid rgba(22,39,80,.10);
+  border-radius: 999px;
+  background: rgba(253,252,251,.72);
+  color: rgba(22,39,80,.62);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 680;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+.area-symbol {
+  position: relative;
+  z-index: 1;
+  width: 112px;
+  height: 112px;
+  margin-bottom: 34px;
+  border-radius: 28px;
+  border: 1px solid rgba(22,39,80,.10);
+  background: rgba(220,231,242,.34);
+  box-shadow: inset 0 1px 0 rgba(253,252,251,.72);
+}
+.area-symbol-media span {
+  position: absolute;
+  left: 27px;
+  right: 27px;
+  height: 2px;
+  border-radius: 99px;
+  background: var(--color-indigo);
+  transform-origin: left center;
+}
+.area-symbol-media span:nth-child(1) { top: 34px; width: 35px; opacity: .55; }
+.area-symbol-media span:nth-child(2) { top: 53px; width: 58px; opacity: .92; }
+.area-symbol-media span:nth-child(3) { top: 72px; width: 44px; opacity: .68; }
+.area-symbol-fashion::before,
+.area-symbol-fashion::after {
+  content: "";
+  position: absolute;
+  border-color: var(--color-indigo);
+  border-style: solid;
+}
+.area-symbol-fashion::before {
+  width: 46px;
+  height: 58px;
+  left: 33px;
+  top: 27px;
+  border-width: 2px 1px 1px;
+  border-radius: 28px 28px 10px 10px;
+  opacity: .86;
+}
+.area-symbol-fashion::after {
+  width: 54px;
+  height: 28px;
+  left: 29px;
+  top: 44px;
+  border-width: 0 0 1px 0;
+  border-radius: 50%;
+  transform: rotate(-18deg);
+  opacity: .55;
+}
+.area-card h3 {
+  position: relative;
+  z-index: 1;
+  max-width: 430px;
+}
+.area-card p {
+  position: relative;
+  z-index: 1;
+  margin: 18px 0 0;
+  color: rgba(22,39,80,.70);
+  max-width: 720px;
+}
+.area-foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 34px;
+}
+.area-foot span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,39,80,.10);
+  color: rgba(22,39,80,.58);
+  background: rgba(253,252,251,.48);
+  font-size: 12px;
+}
+.area-card.visible .area-symbol-media span {
+  animation: areaLineIn 1.1s var(--ease) both;
+}
+.area-card.visible .area-symbol-media span:nth-child(2) { animation-delay: .08s; }
+.area-card.visible .area-symbol-media span:nth-child(3) { animation-delay: .16s; }
+.area-card.visible .area-symbol-fashion::before { animation: areaFadeScale .9s var(--ease) .05s both; }
+.area-card.visible .area-symbol-fashion::after { animation: areaThread 1.2s var(--ease) .22s both; }
+
+.brand-build {
+  background:
+    radial-gradient(circle at 80% 12%, rgba(253,252,251,.62), transparent 36%),
+    linear-gradient(135deg, rgba(220,231,242,.94), rgba(253,252,251,.74) 58%, rgba(220,231,242,.78));
+}
+.brand-build::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,194,182,.66), transparent);
+}
+.brand-build-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  align-items: center;
+}
+.build-visual {
+  width: min(420px, 100%);
+  justify-self: end;
+  position: relative;
+  --build-progress: 0;
+}
+.build-field {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 42px;
+  overflow: hidden;
+  border: 1px solid rgba(22,39,80,.12);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(253,252,251,.92) 0 24%, rgba(253,252,251,.56) 25% 42%, transparent 43%),
+    linear-gradient(145deg, rgba(253,252,251,.56), rgba(220,231,242,.52));
+  box-shadow:
+    inset 0 1px 0 rgba(253,252,251,.82),
+    0 30px 86px rgba(22,39,80,.10);
+  transform: translateY(calc((.5 - var(--build-progress)) * 18px));
+  isolation: isolate;
+}
+.build-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(22,39,80,.045) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(22,39,80,.035) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 72%);
+  opacity: .72;
+}
+.build-field::after {
+  content: "";
+  position: absolute;
+  inset: 26px;
+  border-radius: 34px;
+  border: 1px solid rgba(253,252,251,.62);
+  pointer-events: none;
+}
+.build-orbit {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.build-orbit-one {
+  inset: 72px;
+  border: 1px solid rgba(201,194,182,.74);
+  border-right-color: transparent;
+  border-bottom-color: rgba(201,194,182,.22);
+}
+.build-orbit-two {
+  inset: 112px;
+  border: 1px solid rgba(22,39,80,.14);
+  border-left-color: transparent;
+  border-top-color: rgba(22,39,80,.06);
+}
+.build-visual.visible .build-orbit-one { animation: buildOrbit 26s linear infinite; }
+.build-visual.visible .build-orbit-two { animation: buildOrbitReverse 32s linear infinite; }
+.build-lines {
+  position: absolute;
+  inset: 34px;
+  width: calc(100% - 68px);
+  height: calc(100% - 68px);
+  overflow: visible;
+  z-index: 1;
+}
+.build-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+}
+.build-line-one { stroke: rgba(22,39,80,.22); stroke-width: 1.2; }
+.build-line-two { stroke: rgba(201,194,182,.78); stroke-width: 1; }
+.build-line-three { stroke: rgba(22,39,80,.12); stroke-width: 1; }
+.build-visual.visible .build-line { animation: buildLineDraw 1.7s var(--ease) .15s forwards; }
+.build-visual.visible .build-line-two { animation-delay: .32s; }
+.build-visual.visible .build-line-three { animation-delay: .48s; }
+.build-center {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 142px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(253,252,251,.88);
+  border: 1px solid rgba(22,39,80,.10);
+  box-shadow: 0 24px 54px rgba(22,39,80,.13), inset 0 1px 0 rgba(253,252,251,.8);
+  transform: translate(-50%, -50%) scale(calc(.96 + (var(--build-progress) * .04)));
+}
+.build-center::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,194,182,.42);
+}
+.build-logo-animated {
+  position: relative;
+  z-index: 2;
+  width: 58px;
+  height: 76px;
+  color: var(--color-indigo);
+  opacity: 0;
+  transform: translateY(5px) scale(.96);
+  filter: drop-shadow(0 12px 20px rgba(22,39,80,.10));
+}
+.build-logo-animated path {
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.build-visual.visible .build-logo-animated {
+  animation: buildLogoIn .95s var(--ease) .28s forwards;
+}
+.build-visual.visible .build-logo-animated path {
+  animation: buildLogoDraw 1.75s var(--ease) .28s forwards, fillmark .72s ease 1.55s forwards;
+}
+.build-node {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,39,80,.10);
+  background: rgba(253,252,251,.76);
+  box-shadow: 0 14px 34px rgba(22,39,80,.075);
+  color: rgba(22,39,80,.66);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: .03em;
+  opacity: 0;
+  transform: translateY(8px);
+}
+.build-node i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-dust);
+  box-shadow: 0 0 0 6px rgba(201,194,182,.15);
+}
+.node-idea { left: 54px; top: 68px; }
+.node-haltung { right: 48px; top: 112px; }
+.node-form { left: 48px; bottom: 104px; }
+.node-wert { right: 58px; bottom: 70px; }
+.build-visual.visible .build-node { animation: buildNodeIn .78s var(--ease) forwards; }
+.build-visual.visible .node-idea { animation-delay: .62s; }
+.build-visual.visible .node-haltung { animation-delay: .78s; }
+.build-visual.visible .node-form { animation-delay: .94s; }
+.build-visual.visible .node-wert { animation-delay: 1.1s; }
+.build-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  z-index: 4;
+  transform: translateX(-50%);
+  color: rgba(22,39,80,.43);
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.build-dust {
+  position: absolute;
+  right: 38px;
+  top: 42px;
+  z-index: 2;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-dust);
+  box-shadow: 0 0 0 10px rgba(201,194,182,.13), 0 0 34px rgba(201,194,182,.46);
+}
+.build-visual.visible .build-dust { animation: dustBreathe 6.2s ease-in-out 1s infinite; }
+
+@keyframes areaLineIn {
+  from { transform: scaleX(.08); opacity: 0; }
+  to { transform: scaleX(1); }
+}
+@keyframes areaFadeScale {
+  from { opacity: 0; transform: scale(.86); }
+}
+@keyframes areaThread {
+  from { opacity: 0; transform: rotate(-18deg) translateX(-16px); }
+}
+@keyframes buildOrbit { to { transform: rotate(360deg); } }
+@keyframes buildOrbitReverse { to { transform: rotate(-360deg); } }
+@keyframes buildLineDraw { to { stroke-dashoffset: 0; } }
+@keyframes buildNodeIn { to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 880px) {
+  .area-list { grid-template-columns: 1fr; margin-top: 36px; }
+  .area-card { min-height: auto; padding: 24px; border-radius: 28px; }
+  .area-top { margin-bottom: 26px; }
+  .area-symbol { width: 96px; height: 96px; margin-bottom: 26px; border-radius: 24px; }
+  .area-foot { padding-top: 26px; }
+  .brand-build-inner { grid-template-columns: 1fr; }
+  .build-visual { width: min(340px, 100%); justify-self: start; }
+  .build-field { border-radius: 34px; }
+  .build-center { width: 122px; }
+  .build-logo-animated { width: 50px; height: 66px; }
+  .build-orbit-one { inset: 56px; }
+  .build-orbit-two { inset: 88px; }
+  .build-node { font-size: 11px; padding: 6px 9px; }
+  .node-idea { left: 26px; top: 54px; }
+  .node-haltung { right: 22px; top: 86px; }
+  .node-form { left: 24px; bottom: 86px; }
+  .node-wert { right: 28px; bottom: 52px; }
+  .build-caption { bottom: 25px; letter-spacing: .18em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .area-card.visible .area-symbol-media span,
+  .area-card.visible .area-symbol-fashion::before,
+  .area-card.visible .area-symbol-fashion::after,
+  .build-visual.visible .build-orbit-one,
+  .build-visual.visible .build-orbit-two,
+  .build-visual.visible .build-line,
+  .build-visual.visible .build-logo-animated,
+  .build-visual.visible .build-logo-animated path,
+  .build-visual.visible .build-node,
+  .build-visual.visible .build-dust {
+    animation: none !important;
+  }
+  .build-line { stroke-dashoffset: 0; }
+  .build-logo-animated { opacity: 1; transform: none; }
+  .build-logo-animated path { fill: currentColor; stroke-dashoffset: 0; }
+  .build-node { opacity: 1; transform: none; }
+}
+
+
 </style>
 <title>Hois Studios · Inh. Jannik Hois</title>
 <meta name="description" content="Hois Studios ist die Geschäftsbezeichnung des Einzelunternehmens von Jannik Hois für Medien, Content und den Aufbau einer eigenen Modemarke.">
@@ -712,24 +1157,30 @@ h3 {
     <div class="section-grid">
       <div class="section-label reveal">Bereiche</div>
       <div>
-        <h2 id="bereiche-title" class="reveal">Tätigkeitsbereiche.</h2>
-        <p class="lead reveal">Hois Studios bündelt verschiedene selbstständige Tätigkeiten, ohne daraus eine große Agentur oder Unternehmensgruppe zu machen. Die Bereiche sind bewusst klar getrennt und entwickeln sich Schritt für Schritt weiter.</p>
+        <h2 id="bereiche-title" class="reveal">Tätigkeiten mit eigenem Raum.</h2>
+        <p class="lead reveal">Unter Hois Studios laufen zwei Bereiche zusammen: die Arbeit an digitalen Inhalten und der langfristige Aufbau einer eigenen Modemarke. Beide Bereiche bleiben klar getrennt, werden aber mit derselben Haltung geführt: ruhig, sorgfältig und mit Blick für Qualität.</p>
         <div class="area-list">
-          <article class="area-card reveal">
-            <div class="area-number">01</div>
-            <div>
-              <h3>Hois Media</h3>
-              <p>Hois Media umfasst meine Arbeit im Bereich Medien und Content. Dazu gehören die Bearbeitung, Aufbereitung und Veröffentlichung digitaler Inhalte für verschiedene Formate und Plattformen.</p>
-              <p>Meine Vision ist es, Inhalte so aufzubereiten, dass sie klar, hochwertig und passend zum jeweiligen Format wirken – ohne unnötige Lautstärke, aber mit einem sauberen Blick für Wirkung, Rhythmus und Qualität.</p>
+          <article class="area-card area-card-media reveal">
+            <div class="area-top">
+              <span class="area-number">01</span>
+              <span class="area-tag">Hois Media</span>
             </div>
+            <div class="area-symbol area-symbol-media" aria-hidden="true"><span></span><span></span><span></span></div>
+            <h3>Medien & Content</h3>
+            <p>Hois Media steht für die Bearbeitung, Strukturierung und Aufbereitung digitaler Inhalte. Im Mittelpunkt stehen klare Formate, ein gutes Gefühl für Rhythmus und eine ruhige, saubere Umsetzung.</p>
+            <p>Es geht nicht darum, Inhalte lauter zu machen, sondern passender: verständlich, hochwertig und abgestimmt auf den jeweiligen Einsatz.</p>
+            <div class="area-foot" aria-label="Schwerpunkte"><span>Schnitt</span><span>Content</span><span>Formatgefühl</span></div>
           </article>
-          <article class="area-card reveal">
-            <div class="area-number">02</div>
-            <div>
-              <h3>Aufbau einer eigenen Modemarke</h3>
-              <p>Neben der Medienarbeit entsteht unter Hois Studios der Aufbau einer eigenen Modemarke. Die Marke befindet sich noch im Aufbau und wird Schritt für Schritt weiterentwickelt.</p>
-              <p>Meine Vision ist es, eine Modemarke langfristig aufzubauen – mit klarer Gestaltung, ehrlicher Qualität und Produkten, die nicht beliebig wirken, sondern mit Ruhe und Anspruch entstehen.</p>
+          <article class="area-card area-card-fashion reveal">
+            <div class="area-top">
+              <span class="area-number">02</span>
+              <span class="area-tag">Modemarke</span>
             </div>
+            <div class="area-symbol area-symbol-fashion" aria-hidden="true"></div>
+            <h3>Aufbau einer eigenen Modemarke</h3>
+            <p>Parallel entsteht unter Hois Studios der Aufbau einer eigenen Modemarke. Die Marke wird bewusst langsam entwickelt – mit Fokus auf Gestaltung, Materialgefühl, Ausdruck und Wiedererkennbarkeit.</p>
+            <p>Meine Vision ist eine Marke, die nicht beliebig wirkt, sondern Haltung zeigt: reduziert, detailbewusst und mit echtem Mehrwert für die Menschen, die sich damit verbinden.</p>
+            <div class="area-foot" aria-label="Schwerpunkte"><span>Markenaufbau</span><span>Mode</span><span>Details</span></div>
           </article>
         </div>
       </div>
@@ -743,11 +1194,27 @@ h3 {
         <h2 id="aufbau-title" class="reveal">Von innen nach außen.</h2>
         <p class="lead reveal">Manche Ideen beginnen leise: mit einem Gefühl für Form, Material, Wirkung und dem Wunsch, etwas Sinnvolles entstehen zu lassen. Ich bin überzeugt, dass gut gestaltete Inhalte und eine sorgfältig aufgebaute Modemarke echten Mehrwert bieten und Zukunft mitgestalten können – nicht durch Lautstärke, sondern durch Klarheit, Qualität und eine Haltung, die sichtbar wird.</p>
       </div>
-      <div class="build-emblem reveal" aria-hidden="true">
-        <span class="dust-accent"></span>
-        <svg class="build-logo-animated" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
-          <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-        </svg>
+      <div class="build-visual reveal" aria-hidden="true">
+        <div class="build-field">
+          <span class="build-dust"></span>
+          <span class="build-orbit build-orbit-one"></span>
+          <span class="build-orbit build-orbit-two"></span>
+          <svg class="build-lines" viewBox="0 0 420 420" aria-hidden="true" focusable="false">
+            <path class="build-line build-line-one" pathLength="1" d="M82 260 C126 178 184 142 252 166 C318 189 352 236 356 304"></path>
+            <path class="build-line build-line-two" pathLength="1" d="M108 112 C168 74 260 72 316 134 C374 198 352 294 296 340"></path>
+            <path class="build-line build-line-three" pathLength="1" d="M70 312 C136 374 244 374 320 314"></path>
+          </svg>
+          <div class="build-center">
+            <svg class="build-logo-animated" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+              <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
+            </svg>
+          </div>
+          <span class="build-node node-idea"><i></i><span>Idee</span></span>
+          <span class="build-node node-haltung"><i></i><span>Haltung</span></span>
+          <span class="build-node node-form"><i></i><span>Form</span></span>
+          <span class="build-node node-wert"><i></i><span>Mehrwert</span></span>
+          <span class="build-caption">Hois Studios</span>
+        </div>
       </div>
     </div>
   </section>
@@ -798,15 +1265,28 @@ h3 {
   const body = document.body;
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('.menu-button');
+  const buildVisual = document.querySelector('.build-visual');
+
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+  const updateBuildVisual = () => {
+    if (!buildVisual) return;
+    const rect = buildVisual.getBoundingClientRect();
+    const viewport = window.innerHeight || document.documentElement.clientHeight;
+    const progress = clamp((viewport - rect.top) / (viewport + rect.height), 0, 1);
+    buildVisual.style.setProperty('--build-progress', progress.toFixed(3));
+  };
 
   const progress = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     document.documentElement.style.setProperty('--progress', Math.min(100, y / max * 100) + '%');
     if (header) header.classList.toggle('scrolled', y > 12);
+    updateBuildVisual();
   };
   progress();
   window.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress, { passive: true });
 
   if (menuButton) {
     menuButton.addEventListener('click', function(){
