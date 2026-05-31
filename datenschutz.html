@@ -1,83 +1,677 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#162750">
-  <link rel="icon" href="assets/hois-logo-indigo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <title>Datenschutz · Hois Studios</title>
-  <meta name="description" content="Datenschutzerklärung von Hois Studios.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#162750">
+<link rel="icon" href="assets/hois-logo-indigo.svg" type="image/svg+xml">
+<style>
+:root {
+  --color-white: #FDFCFB;
+  --color-indigo: #162750;
+  --color-blue-light: #DCE7F2;
+  --color-dust: #C9C2B6;
+  --font-heading: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --page: min(1120px, calc(100vw - 40px));
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--color-white); }
+body {
+  margin: 0;
+  color: var(--color-indigo);
+  background: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; }
+img, svg { display: block; max-width: 100%; }
+::selection { background: var(--color-blue-light); color: var(--color-indigo); }
+.skip-link {
+  position: fixed;
+  z-index: 999;
+  left: 16px;
+  top: 16px;
+  transform: translateY(-160%);
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--color-indigo);
+  color: var(--color-white);
+}
+.skip-link:focus { transform: translateY(0); }
+.site-header {
+  position: fixed;
+  z-index: 80;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 20px;
+  border-bottom: 1px solid transparent;
+  transition: background .35s var(--ease), border-color .35s var(--ease), padding .35s var(--ease);
+}
+.site-header.scrolled, .legal-page .site-header {
+  background: rgba(253,252,251,.91);
+  backdrop-filter: blur(18px);
+  border-bottom-color: rgba(22,39,80,.10);
+  padding-block: 9px;
+}
+.nav-wrap {
+  width: var(--page);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--color-indigo);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: 760;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.home:not(.nav-open) .site-header:not(.scrolled) .brand,
+.home:not(.nav-open) .site-header:not(.scrolled) .nav a,
+.home:not(.nav-open) .site-header:not(.scrolled) .menu-button { color: var(--color-white); }
+.logo { width: 22px; height: 29px; color: currentColor; flex: 0 0 22px; }
+.logo path { fill: currentColor; }
+.mark-draw path {
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.55s var(--ease) .18s forwards, fillmark .6s ease 1.15s forwards;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 13px;
+}
+.nav a, .footer-links a, .legal-links a {
+  text-decoration: none;
+  position: relative;
+}
+.nav a::after, .footer-links a::after, .legal-links a::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s var(--ease);
+}
+.nav a:hover::after, .footer-links a:hover::after, .legal-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.menu-button {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--color-indigo);
+  background: transparent;
+  padding: 0;
+}
+.menu-button span {
+  display: block;
+  width: 15px;
+  height: 1px;
+  margin: 5px auto;
+  background: currentColor;
+  transition: transform .25s var(--ease);
+}
+.nav-open .menu-button span:first-child { transform: translateY(3px) rotate(42deg); }
+.nav-open .menu-button span:last-child { transform: translateY(-3px) rotate(-42deg); }
+.progress {
+  position: fixed;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  width: var(--progress, 0%);
+  height: 2px;
+  background: var(--color-dust);
+}
+.hero {
+  min-height: 92svh;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  padding: 122px 20px 82px;
+  background: var(--color-indigo);
+  color: var(--color-white);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: auto -18vw -38vw auto;
+  width: 66vw;
+  height: 66vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220,231,242,.17), transparent 64%);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(253,252,251,.045) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(253,252,251,.028) 1px, transparent 1px);
+  background-size: 92px 92px;
+  mask-image: radial-gradient(circle at 24% 24%, black, transparent 72%);
+}
+.line-field {
+  position: absolute;
+  inset: 0;
+  opacity: .55;
+  pointer-events: none;
+}
+.line-field path {
+  fill: none;
+  stroke: rgba(201,194,182,.36);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 9 20;
+  animation: line 34s linear infinite;
+}
+.line-field path:nth-child(2) { stroke: rgba(220,231,242,.24); animation-duration: 44s; animation-direction: reverse; }
+.line-field path:nth-child(3) { stroke: rgba(253,252,251,.16); animation-duration: 54s; }
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  width: var(--page);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: clamp(34px, 8vw, 90px);
+  align-items: end;
+}
+.hero-mark { width: 48px; height: 63px; margin-bottom: 26px; color: var(--color-white); }
+.hero-mark .logo { width: 48px; height: 63px; flex-basis: 48px; }
+.kicker, .eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 680;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.kicker { color: rgba(253,252,251,.72); }
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  letter-spacing: -.035em;
+  line-height: .98;
+  text-wrap: balance;
+}
+h1 {
+  max-width: 810px;
+  font-size: clamp(48px, 8.8vw, 112px);
+  font-weight: 680;
+}
+h2 {
+  max-width: 790px;
+  font-size: clamp(32px, 5.4vw, 72px);
+  font-weight: 650;
+}
+h3 {
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 640;
+  line-height: 1.08;
+}
+.hero-text {
+  max-width: 610px;
+  margin: 28px 0 0;
+  color: rgba(253,252,251,.78);
+  font-size: clamp(17px, 1.45vw, 20px);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 34px;
+}
+.button-link, .text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  text-decoration: none;
+  font-size: 14px;
+}
+.button-link {
+  padding: 10px 18px;
+  border: 1px solid rgba(253,252,251,.45);
+  border-radius: 999px;
+  background: rgba(253,252,251,.05);
+  transition: transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+}
+.button-link:hover { transform: translateY(-2px); background: rgba(253,252,251,.10); border-color: rgba(253,252,251,.72); }
+.text-link { color: rgba(253,252,251,.72); }
+.hero-note {
+  border-left: 1px solid rgba(201,194,182,.58);
+  padding-left: 22px;
+  max-width: 260px;
+}
+.hero-note span {
+  display: block;
+  color: rgba(253,252,251,.62);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.hero-note strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+}
+.hero-note p { margin: 12px 0 0; color: rgba(253,252,251,.66); font-size: 14px; line-height: 1.55; }
+.section {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(82px, 11vw, 146px) 0;
+  border-bottom: 1px solid rgba(22,39,80,.10);
+}
+.section-grid {
+  display: grid;
+  grid-template-columns: 170px minmax(0,1fr);
+  gap: clamp(34px, 7vw, 82px);
+}
+.section-label {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 720;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(22,39,80,.55);
+}
+.lead {
+  max-width: 730px;
+  margin: 24px 0 0;
+  font-size: clamp(18px, 1.7vw, 22px);
+  line-height: 1.65;
+  color: rgba(22,39,80,.76);
+}
+.copy-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  margin-top: 38px;
+  color: rgba(22,39,80,.72);
+}
+.area-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 42px;
+}
+.area-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 28px;
+  padding: 30px;
+  border: 1px solid rgba(22,39,80,.10);
+  background: rgba(220,231,242,.38);
+  transition: transform .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
+}
+.area-card:nth-child(even) { background: rgba(253,252,251,.8); }
+.area-card:hover { transform: translateY(-4px); border-color: rgba(22,39,80,.22); background: rgba(220,231,242,.52); }
+.area-number {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 720;
+  color: rgba(22,39,80,.48);
+}
+.area-card p { margin: 14px 0 0; color: rgba(22,39,80,.70); max-width: 760px; }
+.brand-build {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: var(--color-blue-light);
+  border-bottom: 0;
+}
+.brand-build-inner {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(86px, 11vw, 150px) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: clamp(34px, 7vw, 86px);
+  align-items: end;
+}
+.brand-build .lead { color: rgba(22,39,80,.74); }
+.orbit {
+  aspect-ratio: 1;
+  border: 1px solid rgba(22,39,80,.16);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.orbit::before, .orbit::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(22,39,80,.12);
+}
+.orbit::before { inset: 44px; }
+.orbit::after { inset: 88px; background: rgba(253,252,251,.34); }
+.orbit-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-dust);
+  animation: breathe 4s ease-in-out infinite;
+}
+.orbit-dot:nth-child(1) { top: 26px; left: 50%; }
+.orbit-dot:nth-child(2) { right: 36px; top: 48%; animation-delay: .5s; }
+.orbit-dot:nth-child(3) { bottom: 42px; left: 34%; animation-delay: 1s; }
+.orbit .logo { width: 36px; height: 47px; z-index: 2; color: var(--color-indigo); }
+.principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 44px;
+}
+.principle {
+  min-height: 185px;
+  padding: 25px;
+  border-top: 1px solid rgba(22,39,80,.18);
+  background: linear-gradient(180deg, rgba(220,231,242,.45), rgba(253,252,251,.2));
+}
+.principle h3 { font-size: 22px; }
+.principle p { margin: 14px 0 0; color: rgba(22,39,80,.68); font-size: 15px; line-height: 1.62; }
+.contact {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-indigo);
+  color: var(--color-white);
+}
+.contact-inner {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(86px, 11vw, 148px) 0;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 360px;
+  gap: clamp(40px, 8vw, 92px);
+}
+.contact .section-label { position: static; color: rgba(253,252,251,.55); }
+.contact h2 { color: var(--color-white); }
+.contact p { color: rgba(253,252,251,.72); }
+.contact-box {
+  border-left: 1px solid rgba(201,194,182,.6);
+  padding-left: 26px;
+  align-self: end;
+}
+.contact-row { margin-bottom: 18px; }
+.contact-row span {
+  display: block;
+  margin-bottom: 2px;
+  color: rgba(253,252,251,.52);
+  font-size: 12px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+.contact-row a, .contact-row strong {
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-weight: 620;
+  text-decoration: none;
+}
+.footer {
+  background: var(--color-indigo);
+  color: var(--color-white);
+  border-top: 1px solid rgba(253,252,251,.13);
+}
+.footer-inner {
+  width: var(--page);
+  margin: 0 auto;
+  min-height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: .16em;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+.footer-brand .logo { width: 20px; height: 26px; }
+.footer-links { display: flex; gap: 22px; font-size: 13px; color: rgba(253,252,251,.72); }
+.legal-main {
+  width: min(850px, calc(100vw - 40px));
+  margin: 0 auto;
+  padding: 132px 0 90px;
+}
+.legal-head { padding-bottom: 38px; border-bottom: 1px solid rgba(22,39,80,.12); }
+.legal-head p { margin: 18px 0 0; color: rgba(22,39,80,.68); max-width: 660px; }
+.legal-content { padding-top: 42px; }
+.legal-content section { margin-bottom: 42px; }
+.legal-content h2 {
+  font-size: clamp(24px, 4vw, 38px);
+  margin-bottom: 12px;
+}
+.legal-content h3 {
+  font-size: 19px;
+  margin: 28px 0 8px;
+}
+.legal-content p, .legal-content li { color: rgba(22,39,80,.72); }
+.legal-content ul { padding-left: 20px; }
+.legal-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+  font-size: 14px;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fillmark { to { fill: currentColor; } }
+@keyframes line { to { stroke-dashoffset: -420; } }
+@keyframes breathe { 50% { transform: scale(1.7); opacity: .55; } }
+@media (max-width: 880px) {
+  :root { --page: min(100%, calc(100vw - 28px)); }
+  body { font-size: 16px; }
+  .site-header { padding: 12px 14px; }
+  .brand { font-size: 10px; letter-spacing: .10em; }
+  .logo { width: 20px; height: 26px; flex-basis: 20px; }
+  .menu-button { display: block; }
+  .nav {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    top: 62px;
+    display: grid;
+    gap: 0;
+    padding: 10px;
+    border: 1px solid rgba(22,39,80,.10);
+    border-radius: 22px;
+    background: rgba(253,252,251,.96);
+    color: var(--color-indigo) !important;
+    box-shadow: 0 26px 70px rgba(22,39,80,.14);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity .22s var(--ease), transform .22s var(--ease);
+  }
+  .nav-open .nav { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .nav a { padding: 14px 12px; font-size: 15px; }
+  .hero { min-height: auto; padding: 104px 14px 70px; }
+  .hero-inner, .section-grid, .brand-build-inner, .contact-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-mark, .hero-mark .logo { width: 42px; height: 55px; }
+  .hero-note { max-width: none; margin-top: 10px; }
+  h1 { font-size: clamp(42px, 13vw, 78px); }
+  .section { padding: 74px 0; }
+  .section-label { position: static; }
+  .copy-cols, .principles { grid-template-columns: 1fr; }
+  .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+  .brand-build-inner, .contact-inner { padding: 74px 0; }
+  .orbit { max-width: 260px; }
+  .contact-box { padding-left: 20px; }
+  .footer-inner { min-height: 140px; align-items: flex-start; justify-content: center; flex-direction: column; padding: 26px 0; }
+  .footer-links { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; transform: none; }
+  .mark-draw path { fill: currentColor; stroke-dashoffset: 0; }
+}
+</style>
+<title>Datenschutz · Hois Studios</title>
+<meta name="description" content="Datenschutzhinweise von Hois Studios.">
 </head>
 <body class="legal-page">
-
-<header class="legal-top">
-  <a class="brand legal-brand" href="index.html" aria-label="Hois Studios Startseite">
-    <svg class="brand-logo" width="24" height="31" viewBox="0 0 104.36 135.7" role="img" aria-label="Hois Studios Logo" focusable="false">
-        <path class="logo-shape" pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"></path>
-      </svg>
-    <span>Hois Studios</span>
-  </a>
-  <nav class="legal-nav" aria-label="Seitennavigation">
-    <a href="index.html">Start</a>
-    <a href="impressum.html">Impressum</a>
-    <a href="datenschutz.html">Datenschutz</a>
-  </nav>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html" aria-label="Hois Studios Startseite"><svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+  <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
+</svg><span>Hois Studios</span></a>
+    <button class="menu-button" type="button" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span></button>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html#profil">Profil</a>
+      <a href="index.html#bereiche">Bereiche</a>
+      <a href="index.html#aufbau">Aufbau</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+  </div>
 </header>
-
 <main id="main" class="legal-main">
-  <p class="kicker dark">Rechtliches</p>
-  <h1>Datenschutz</h1>
-
-  <section>
-    <h2>Verantwortlicher</h2>
-    <p>Hois Studios, Inh. Jannik Hois<br>Jannik Hois<br>Am Wahrberg 14<br>91589 Aurach<br>E-Mail: <a href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a></p>
-  </section>
-
-  <section>
-    <h2>Grundsatz</h2>
-    <p>Diese Website dient der Information über Hois Studios. Es gibt kein Kontaktformular, keinen Newsletter, keinen Shop, keine Analyse-Tools und kein eigenes Tracking.</p>
-  </section>
-
-  <section>
-    <h2>Hosting über GitHub Pages</h2>
-    <p>Die Website wird als statische Website über GitHub Pages bereitgestellt. Beim Aufruf der Seiten können technisch notwendige Zugriffsdaten verarbeitet werden. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, Browser- und Geräteinformationen, angeforderte Dateien sowie Referrer-Informationen gehören.</p>
-    <p>Die Verarbeitung erfolgt, damit die Website technisch ausgeliefert, stabil betrieben und vor Missbrauch geschützt werden kann.</p>
-  </section>
-
-  <section>
-    <h2>Kontakt per E-Mail oder Telefon</h2>
-    <p>Wenn du per E-Mail oder Telefon Kontakt aufnimmst, werden die von dir übermittelten Angaben verarbeitet, um deine Anfrage zu beantworten und die Kommunikation zu dokumentieren.</p>
-  </section>
-
-  <section>
-    <h2>Cookies und externe Inhalte</h2>
-    <p>Diese Website setzt selbst keine Cookies und bindet keine externen Analyse- oder Marketingdienste ein.</p>
-  </section>
-
-  <section>
-    <h2>Deine Rechte</h2>
-    <p>Du hast im Rahmen der gesetzlichen Voraussetzungen Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem besteht ein Beschwerderecht bei einer zuständigen Datenschutzaufsichtsbehörde.</p>
-  </section>
+  <header class="legal-head">
+    <p class="eyebrow">Datenschutz</p>
+    <h1>Datenschutzhinweise</h1>
+    <p>Diese Website ist bewusst einfach gehalten. Es gibt kein Kontaktformular, keine Analysewerkzeuge, keine Werbung und keine Cookies durch Hois Studios.</p>
+  </header>
+  <div class="legal-content">
+    <section>
+      <h2>Verantwortlicher</h2>
+      <p><strong>Hois Studios, Inh. Jannik Hois</strong><br>Am Wahrberg 14<br>91589 Aurach<br>E-Mail: <a href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a></p>
+    </section>
+    <section>
+      <h2>Aufruf der Website</h2>
+      <p>Beim Aufruf einer Website werden technisch notwendige Daten verarbeitet, damit die Seite ausgeliefert werden kann. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Datei, Browserinformationen und Betriebssysteminformationen gehören.</p>
+      <p>Die Website wird als statische Website über GitHub Pages bereitgestellt. Die technische Verarbeitung erfolgt daher auch durch GitHub.</p>
+    </section>
+    <section>
+      <h2>Kontakt per E-Mail oder Telefon</h2>
+      <p>Wenn du Kontakt aufnimmst, werden die von dir übermittelten Angaben zur Bearbeitung der Anfrage verwendet. Ohne diese Angaben kann eine Anfrage nicht sinnvoll beantwortet werden.</p>
+    </section>
+    <section>
+      <h2>Cookies und Tracking</h2>
+      <p>Hois Studios setzt auf dieser Website keine eigenen Cookies, keine Analyse-Tools und keine Werbe- oder Trackingdienste ein.</p>
+    </section>
+    <section>
+      <h2>Speicherdauer</h2>
+      <p>Personenbezogene Daten werden nur so lange gespeichert, wie es für den jeweiligen Zweck erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.</p>
+    </section>
+    <section>
+      <h2>Deine Rechte</h2>
+      <p>Du hast im Rahmen der gesetzlichen Voraussetzungen Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem besteht ein Beschwerderecht bei einer zuständigen Datenschutzaufsichtsbehörde.</p>
+    </section>
+    <nav class="legal-links" aria-label="Weitere Seiten"><a href="index.html">Startseite</a><a href="impressum.html">Impressum</a></nav>
+  </div>
 </main>
-
-<footer class="site-footer">
-  <div class="footer-shell">
-    <div class="footer-mark">
-      <svg class="footer-logo" width="22" height="29" viewBox="0 0 104.36 135.7" role="img" aria-label="Hois Studios Logo" focusable="false">
-        <path class="logo-shape" pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"></path>
-      </svg>
-      <div>
-        <strong>Hois Studios</strong>
-        <span>Inh. Jannik Hois</span>
-      </div>
-    </div>
-    <nav class="footer-nav" aria-label="Rechtliches">
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
+  <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
+</svg><span>Hois Studios</span></div>
+    <nav class="footer-links" aria-label="Rechtliches">
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
     </nav>
   </div>
 </footer>
+<script>
+(function(){
+  const body = document.body;
+  const header = document.querySelector('.site-header');
+  const menuButton = document.querySelector('.menu-button');
+  const progress = () => {
+    const y = window.scrollY || document.documentElement.scrollTop;
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    document.documentElement.style.setProperty('--progress', Math.min(100, y / max * 100) + '%');
+    if (header) header.classList.toggle('scrolled', y > 12);
+  };
+  progress();
+  window.addEventListener('scroll', progress, { passive: true });
+
+  if (menuButton) {
+    menuButton.addEventListener('click', function(){
+      const open = !body.classList.contains('nav-open');
+      body.classList.toggle('nav-open', open);
+      menuButton.setAttribute('aria-expanded', String(open));
+    });
+    document.querySelectorAll('.nav a').forEach(function(a){
+      a.addEventListener('click', function(){
+        body.classList.remove('nav-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  const items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .13, rootMargin: '0px 0px -8% 0px' });
+  items.forEach((el, i) => {
+    if (i < 8) el.style.setProperty('--d', Math.min(i * 55, 240) + 'ms');
+    io.observe(el);
+  });
+})();
+</script>
 </body>
 </html>
