@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#162750">
-<link rel="icon" href="assets/hois-logo-indigo.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
 :root {
   --color-white: #FDFCFB;
@@ -365,55 +367,110 @@ h3 {
   align-items: end;
 }
 .brand-build .lead { color: rgba(22,39,80,.74); }
-.orbit {
+
+.build-map {
+  --mx: 0px;
+  --my: 0px;
+  --build-shift: 0px;
   aspect-ratio: 1;
-  border: 1px solid rgba(22,39,80,.16);
-  border-radius: 50%;
+  width: min(330px, 100%);
+  justify-self: end;
+  position: relative;
   display: grid;
   place-items: center;
-  position: relative;
+  border-radius: 42px;
+  border: 1px solid rgba(22,39,80,.11);
+  background:
+    radial-gradient(circle at 50% 44%, rgba(253,252,251,.66), rgba(253,252,251,.25) 52%, transparent 72%),
+    linear-gradient(145deg, rgba(253,252,251,.26), rgba(22,39,80,.035));
+  box-shadow: inset 0 1px 0 rgba(253,252,251,.42);
+  overflow: hidden;
 }
-.orbit::before, .orbit::after {
+.build-map::before,
+.build-map::after {
   content: "";
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(22,39,80,.12);
-}
-.orbit::before { inset: 44px; }
-.orbit::after { inset: 88px; background: rgba(253,252,251,.34); }
-.orbit-map {
-  position: absolute;
-  inset: 18px;
-  z-index: 1;
-  opacity: .88;
   pointer-events: none;
 }
-.orbit-map path {
+.build-map::before {
+  inset: 26px;
+  border: 1px solid rgba(22,39,80,.13);
+}
+.build-map::after {
+  inset: 78px;
+  border: 1px solid rgba(201,194,182,.42);
+  background: rgba(253,252,251,.28);
+}
+.build-line {
+  position: absolute;
+  inset: 22px;
+  width: calc(100% - 44px);
+  height: calc(100% - 44px);
+  z-index: 1;
+  overflow: visible;
+  transform: translate(var(--line-x, 0px), var(--line-y, 0px));
+  transition: transform .28s var(--ease);
+}
+.build-path {
   fill: none;
-  stroke: rgba(201,194,182,.68);
-  stroke-width: 1.1;
+  stroke: rgba(201,194,182,.88);
+  stroke-width: 1.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
 }
-.orbit.visible .orbit-map path { animation: connectOrbit 1.8s var(--ease) .12s forwards; }
-.orbit.visible .orbit-map path:nth-child(2) { animation-delay: .42s; }
-.orbit-dot {
-  position: absolute;
+.build-path-soft { stroke: rgba(22,39,80,.20); stroke-width: 1; }
+.build-map.visible .build-path { animation: draw 1.8s var(--ease) .18s forwards; }
+.build-map.visible .build-path-soft { animation-delay: .52s; }
+.build-core {
+  position: relative;
   z-index: 3;
-  width: 8px;
-  height: 8px;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  background: var(--color-dust);
-  box-shadow: 0 0 0 7px rgba(201,194,182,.16);
-  animation: breathe 4s ease-in-out infinite;
+  background: rgba(253,252,251,.72);
+  border: 1px solid rgba(201,194,182,.48);
+  box-shadow: 0 18px 45px rgba(22,39,80,.08);
+  transform: translate(var(--core-x, 0px), var(--core-y, 0px));
+  transition: transform .28s var(--ease), box-shadow .28s var(--ease);
 }
-.orbit-dot-one { top: 26px; left: calc(50% - 4px); }
-.orbit-dot-two { right: 36px; top: 48%; animation-delay: .5s; }
-.orbit-dot-three { bottom: 42px; left: 34%; animation-delay: 1s; }
-.orbit .logo { width: 36px; height: 47px; z-index: 2; color: var(--color-indigo); }
+.build-map:hover .build-core { box-shadow: 0 22px 58px rgba(22,39,80,.12); }
+.build-logo { width: 30px; height: 39px; object-fit: contain; }
+.build-point {
+  position: absolute;
+  z-index: 4;
+  left: var(--x);
+  top: var(--y);
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: var(--color-dust);
+  box-shadow: 0 0 0 7px rgba(201,194,182,.14), 0 0 24px rgba(201,194,182,.36);
+  transform: translate(-50%, -50%);
+  animation: pointPulse 5.8s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.build-point span {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 720;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(22,39,80,.56);
+  white-space: nowrap;
+}
+.build-point.is-left span { left: auto; right: 22px; text-align: right; }
+.build-point.is-top span { left: 50%; top: -30px; transform: translateX(-50%); }
+.build-point.is-bottom span { left: 50%; top: 25px; transform: translateX(-50%); }
 .principles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -530,8 +587,7 @@ h3 {
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fillmark { to { fill: currentColor; } }
 @keyframes line { to { stroke-dashoffset: -420; } }
-@keyframes breathe { 50% { transform: scale(1.7); opacity: .55; } }
-@keyframes connectOrbit { to { stroke-dashoffset: 0; } }
+@keyframes pointPulse { 50% { transform: translate(-50%, -50%) scale(1.38); opacity: .72; } }
 @media (max-width: 880px) {
   :root { --page: min(100%, calc(100vw - 28px)); }
   body { font-size: 16px; }
@@ -571,8 +627,9 @@ h3 {
   .copy-cols, .principles { grid-template-columns: 1fr; }
   .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
   .brand-build-inner, .contact-inner { padding: 74px 0; }
-  .orbit { max-width: 260px; }
+  .build-map { width: min(280px, 100%); justify-self: start; }
   .contact-box { padding-left: 20px; }
+  .build-point span { font-size: 9px; letter-spacing: .12em; }
   .footer-inner { min-height: 140px; align-items: flex-start; justify-content: center; flex-direction: column; padding: 26px 0; }
   .footer-links { flex-wrap: wrap; }
 }
@@ -580,13 +637,12 @@ h3 {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
   .mark-draw path { fill: currentColor; stroke-dashoffset: 0; }
-  .orbit-map path { stroke-dashoffset: 0; }
 }
 </style>
 <title>Hois Studios · Inh. Jannik Hois</title>
-<meta name="description" content="Hois Studios ist die Geschäftsbezeichnung des Einzelunternehmens von Jannik Hois für Medien, Content und eigene Projektentwicklung.">
+<meta name="description" content="Hois Studios ist die Geschäftsbezeichnung des Einzelunternehmens von Jannik Hois für Medien, Content und eigene Projekte.">
 <meta property="og:title" content="Hois Studios">
-<meta property="og:description" content="Geschäftsbezeichnung für Medien, Content und eigene Projekte.">
+<meta property="og:description" content="Geschäftsbezeichnung für Medien, Content und eigene Projekte von Jannik Hois.">
 <meta property="og:type" content="website">
 </head>
 <body class="home">
@@ -599,9 +655,9 @@ h3 {
 </svg><span>Hois Studios</span></a>
     <button class="menu-button" type="button" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span></button>
     <nav class="nav" aria-label="Hauptnavigation">
-      <a href="index.html#profil">Hois Studios</a>
-      <a href="index.html#bereiche">Tätigkeiten</a>
-      <a href="index.html#aufbau">Vision</a>
+      <a href="index.html#profil">Profil</a>
+      <a href="index.html#bereiche">Bereiche</a>
+      <a href="index.html#aufbau">Aufbau</a>
       <a href="index.html#kontakt">Kontakt</a>
     </nav>
   </div>
@@ -619,30 +675,30 @@ h3 {
   <path pathLength="1" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
 </svg></div>
         <p class="kicker reveal">Hois Studios · Inh. Jannik Hois</p>
-        <h1 id="hero-title" class="reveal">Hois Studios bündelt meine selbstständigen Tätigkeiten.</h1>
+        <h1 id="hero-title" class="reveal">Geschäftsbezeichnung für Medien, Content und eigene Projekte.</h1>
         <p class="hero-text reveal">Hois Studios ist die Geschäftsbezeichnung meines Einzelunternehmens. Unter diesem Namen bündle ich meine selbstständigen Tätigkeiten – vor allem in den Bereichen Medien, Content und eigene Projektentwicklung.</p>
         <div class="hero-actions reveal">
           <a class="button-link" href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a>
-          <a class="text-link" href="#bereiche">Tätigkeiten ansehen</a>
+          <a class="text-link" href="#bereiche">Bereiche ansehen</a>
         </div>
       </div>
-      <aside class="hero-note reveal" aria-label="Kurz erklärt">
+      <aside class="hero-note reveal" aria-label="Kurzprofil">
         <span>Kurz erklärt</span>
-        <strong>Ein Einzelunternehmen mit verschiedenen Tätigkeitsbereichen.</strong>
-        <p>Klar organisiert, ruhig geführt und langfristig aufgebaut.</p>
+        <strong>„Die größte Schönheit entsteht, wenn das Innere außen sichtbar werden darf.“</strong>
+        <p>Ein Einzelunternehmen mit verschiedenen Tätigkeitsbereichen. Persönlich geführt, kreativ gedacht und Schritt für Schritt aufgebaut.</p>
       </aside>
     </div>
   </section>
 
   <section class="section" id="profil" aria-labelledby="profil-title">
     <div class="section-grid">
-      <div class="section-label reveal">Einordnung</div>
+      <div class="section-label reveal">Profil</div>
       <div>
         <h2 id="profil-title" class="reveal">Was ist Hois Studios?</h2>
         <p class="lead reveal">Hois Studios ist der organisatorische Rahmen meiner selbstständigen Arbeit. Die Website gibt einen kurzen Überblick darüber, welche Tätigkeiten unter diesem Namen zusammenlaufen und wie man mich erreichen kann.</p>
         <div class="copy-cols reveal">
-          <p>Es ist ein Einzelunternehmen mit verschiedenen Bereichen, die sauber strukturiert sind. Hois Studios soll dabei nicht größer wirken, als es ist, sondern klar zeigen, wofür der Name steht.</p>
-          <p>Mein Name ist Jannik Hois und ich bin Inhaber von Hois Studios. Mir ist wichtig, jedes Projekt mit Leidenschaft, Liebe zum Detail und einer klaren Haltung zu gestalten.</p>
+          <p>Mein Name ist Jannik Hois und ich bin Inhaber von Hois Studios. Unter dieser Geschäftsbezeichnung bündle ich meine Arbeit in den Bereichen Medien, Content und eigene Projektentwicklung.</p>
+          <p>Mir ist wichtig, jedes Projekt mit Leidenschaft, Liebe zum Detail und einer klaren Haltung zu gestalten. Ich glaube daran, dass Projekte dann Wirkung entfalten, wenn Idee, Gefühl und Umsetzung zusammenpassen.</p>
         </div>
       </div>
     </div>
@@ -650,10 +706,10 @@ h3 {
 
   <section class="section" id="bereiche" aria-labelledby="bereiche-title">
     <div class="section-grid">
-      <div class="section-label reveal">Tätigkeiten</div>
+      <div class="section-label reveal">Bereiche</div>
       <div>
-        <h2 id="bereiche-title" class="reveal">Medien, Content und eigene Projekte.</h2>
-        <p class="lead reveal">Unter Hois Studios laufen verschiedene selbstständige Tätigkeiten zusammen. Die Bereiche werden bewusst getrennt geführt, bleiben aber unter einer klaren geschäftlichen Bezeichnung organisiert.</p>
+        <h2 id="bereiche-title" class="reveal">Tätigkeitsbereiche.</h2>
+        <p class="lead reveal">Hois Studios bündelt verschiedene selbstständige Tätigkeiten, ohne daraus eine große Agentur oder Unternehmensgruppe zu machen. Die Bereiche sind bewusst klar getrennt und entwickeln sich Schritt für Schritt weiter.</p>
         <div class="area-list">
           <article class="area-card reveal">
             <div class="area-number">01</div>
@@ -680,18 +736,19 @@ h3 {
     <div class="brand-build-inner">
       <div>
         <p class="eyebrow reveal">Aufbau</p>
-        <h2 id="aufbau-title" class="reveal">Schritt für Schritt aufgebaut.</h2>
-        <p class="lead reveal">Nicht jedes Projekt muss sofort nach außen sichtbar sein. Wichtig ist, dass die einzelnen Bereiche ordentlich vorbereitet werden und mit einem klaren Blick nach vorne wachsen können.</p>
+        <h2 id="aufbau-title" class="reveal">Von innen nach außen.</h2>
+        <p class="lead reveal">Viele Projekte beginnen leise: mit einer Idee, einem Gefühl für Form und dem Wunsch, etwas Sinnvolles entstehen zu lassen. Ich bin überzeugt, dass gut aufgebaute Projekte echten Mehrwert bieten und Zukunft verändern können – nicht durch Lautstärke, sondern durch Klarheit, Qualität und eine Haltung, die sichtbar wird.</p>
       </div>
-      <div class="orbit reveal" aria-hidden="true">
-        <svg class="orbit-map" viewBox="0 0 300 300" aria-hidden="true" focusable="false">
-          <path pathLength="1" d="M150 30 C210 48 254 92 264 144 C242 204 170 252 102 258 C65 206 74 78 150 30Z"></path>
-          <path pathLength="1" d="M150 30 C148 104 130 188 102 258 M102 258 C154 214 218 176 264 144 M264 144 C222 116 186 78 150 30"></path>
+      <div class="build-map reveal" aria-hidden="true">
+        <svg class="build-line" viewBox="0 0 300 300" preserveAspectRatio="none">
+          <path class="build-path" pathLength="1" d="M150 38 C216 48 258 95 248 154 C238 218 190 259 128 243 C67 229 42 178 58 120 C72 70 103 45 150 38Z"></path>
+          <path class="build-path build-path-soft" pathLength="1" d="M150 38 C134 86 103 111 58 120 M248 154 C195 154 164 189 128 243 M58 120 C104 153 105 212 128 243"></path>
         </svg>
-        <span class="orbit-dot orbit-dot-one"></span><span class="orbit-dot orbit-dot-two"></span><span class="orbit-dot orbit-dot-three"></span>
-        <svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
-  <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-</svg>
+        <span class="build-point is-top" style="--x:50%; --y:13%; --delay:0s"><span>Idee</span></span>
+        <span class="build-point is-right" style="--x:82%; --y:48%; --delay:.35s"><span>Form</span></span>
+        <span class="build-point is-bottom" style="--x:39%; --y:80%; --delay:.7s"><span>Wirkung</span></span>
+        <span class="build-point is-left" style="--x:18%; --y:40%; --delay:1.05s"><span>Haltung</span></span>
+        <div class="build-core"><img class="build-logo" src="assets/hois-logo-indigo.svg" alt=""></div>
       </div>
     </div>
   </section>
@@ -703,9 +760,9 @@ h3 {
         <h2 id="haltung-title" class="reveal">Ruhig, klar und verlässlich.</h2>
         <p class="lead reveal">Ich lege Wert auf klare Abläufe, ruhige Kommunikation und eine saubere Trennung der einzelnen Tätigkeitsbereiche. Projekte sollen nicht beliebig entstehen, sondern ordentlich vorbereitet und zuverlässig umgesetzt werden.</p>
         <div class="principles">
-          <article class="principle reveal"><h3>Klarheit</h3><p>Aufgaben und Bereiche werden sauber getrennt.</p></article>
+          <article class="principle reveal"><h3>Klarheit</h3><p>Aufgaben und Bereiche werden sauber getrennt, damit jedes Projekt seinen eigenen Raum bekommt.</p></article>
           <article class="principle reveal"><h3>Sorgfalt</h3><p>Jedes Projekt wird mit Ruhe, Liebe zum Detail und einem klaren Anspruch umgesetzt.</p></article>
-          <article class="principle reveal"><h3>Langfristigkeit</h3><p>Neue Projekte entstehen Schritt für Schritt und mit einem klaren Blick nach vorne.</p></article>
+          <article class="principle reveal"><h3>Langfristigkeit</h3><p>Neue Projekte entstehen Schritt für Schritt – mit einem klaren Blick nach vorne und dem Anspruch, echten Mehrwert zu schaffen.</p></article>
         </div>
       </div>
     </div>
@@ -716,14 +773,12 @@ h3 {
       <div>
         <div class="section-label reveal">Kontakt</div>
         <h2 id="kontakt-title" class="reveal">Kontakt aufnehmen.</h2>
-        <p class="lead reveal">Für geschäftliche Anfragen oder allgemeine Kontaktaufnahme erreichst du mich per E-Mail.</p>
-        <div class="hero-actions reveal">
-          <a class="button-link" href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a>
-        </div>
+        <p class="lead reveal">Für geschäftliche Anfragen oder allgemeine Kontaktaufnahme erreichst du mich per E-Mail. Die Website nutzt kein Kontaktformular, kein Tracking und keine Cookies.</p>
       </div>
       <div class="contact-box reveal">
         <div class="contact-row"><span>E-Mail</span><a href="mailto:kontakt@hoisstudios.com">kontakt@hoisstudios.com</a></div>
-        <div class="contact-row"><span>Hois Studios</span><strong>Jannik Hois</strong></div>
+        <div class="contact-row"><span>Telefon</span><a href="tel:+491773166639">+49 177 3166639</a></div>
+        <div class="contact-row"><span>Anschrift</span><strong>Am Wahrberg 14<br>91589 Aurach</strong></div>
       </div>
     </div>
   </section>
@@ -732,7 +787,7 @@ h3 {
   <div class="footer-inner">
     <div class="footer-brand"><svg class="logo" viewBox="0 0 104.36 135.7" aria-hidden="true" focusable="false">
   <path d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"/>
-</svg><span>Hois Studios · Jannik Hois</span></div>
+</svg><span>Hois Studios</span></div>
     <nav class="footer-links" aria-label="Rechtliches">
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
@@ -744,14 +799,50 @@ h3 {
   const body = document.body;
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('.menu-button');
+  const buildMaps = document.querySelectorAll('.build-map');
+
+  const applyBuildMotion = (map) => {
+    const pointerX = Number(map.dataset.pointerX || 0);
+    const pointerY = Number(map.dataset.pointerY || 0);
+    const shift = Number(map.dataset.shift || 0);
+    map.style.setProperty('--line-x', (-pointerX * .22).toFixed(2) + 'px');
+    map.style.setProperty('--line-y', (shift - pointerY * .22).toFixed(2) + 'px');
+    map.style.setProperty('--core-x', (pointerX * .28).toFixed(2) + 'px');
+    map.style.setProperty('--core-y', (shift + pointerY * .28).toFixed(2) + 'px');
+  };
+
   const progress = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     document.documentElement.style.setProperty('--progress', Math.min(100, y / max * 100) + '%');
     if (header) header.classList.toggle('scrolled', y > 12);
+
+    buildMaps.forEach((map) => {
+      const rect = map.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const distance = (center - window.innerHeight / 2) / Math.max(1, window.innerHeight);
+      map.dataset.shift = Math.max(-8, Math.min(8, distance * -18)).toFixed(2);
+      applyBuildMotion(map);
+    });
   };
+
   progress();
   window.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress, { passive: true });
+
+  buildMaps.forEach((map) => {
+    map.addEventListener('pointermove', (event) => {
+      const rect = map.getBoundingClientRect();
+      map.dataset.pointerX = (((event.clientX - rect.left) / rect.width - .5) * 12).toFixed(2);
+      map.dataset.pointerY = (((event.clientY - rect.top) / rect.height - .5) * 12).toFixed(2);
+      applyBuildMotion(map);
+    });
+    map.addEventListener('pointerleave', () => {
+      map.dataset.pointerX = '0';
+      map.dataset.pointerY = '0';
+      applyBuildMotion(map);
+    });
+  });
 
   if (menuButton) {
     menuButton.addEventListener('click', function(){
