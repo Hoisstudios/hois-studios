@@ -341,42 +341,11 @@ h3 {
 }
 .area-card:nth-child(even) { background: rgba(253,252,251,.8); }
 .area-card:hover { transform: translateY(-4px); border-color: rgba(22,39,80,.22); background: rgba(220,231,242,.52); }
-.area-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 18px;
-  padding-top: 2px;
-}
 .area-number {
   font-family: var(--font-heading);
   font-size: 12px;
   font-weight: 720;
   color: rgba(22,39,80,.48);
-}
-.area-emblem {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.area-emblem--media { width: 58px; }
-.area-emblem--studios { width: 34px; }
-.area-emblem svg {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-.draw-on-reveal path {
-  fill: transparent;
-  stroke: var(--logo-fill, currentColor);
-  stroke-width: var(--logo-stroke-width, 1.6);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.reveal.visible .draw-on-reveal path {
-  animation: draw 1.35s var(--ease) forwards, fillLogo .55s ease .95s forwards;
 }
 .area-card p { margin: 14px 0 0; color: rgba(22,39,80,.70); max-width: 760px; }
 .media-brand-heading {
@@ -386,21 +355,14 @@ h3 {
   line-height: 1;
 }
 .media-brand-wordmark {
-  width: min(255px, 68vw);
+  width: min(235px, 62vw);
   height: auto;
-  max-height: 26px;
+  max-height: 24px;
 }
-.studios-brand-heading {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.38em;
-  font-family: var(--font-heading);
-  font-size: clamp(22px, 2.1vw, 31px);
-  font-weight: 700;
-  letter-spacing: .28em;
-  line-height: 1;
-  text-transform: uppercase;
+.media-brand-sign {
+  width: 28px;
+  height: auto;
+  flex: 0 0 auto;
 }
 .brand-build {
   position: relative;
@@ -562,7 +524,6 @@ h3 {
 .reveal.visible { opacity: 1; transform: translateY(0); }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fillmark { to { fill: currentColor; } }
-@keyframes fillLogo { to { fill: var(--logo-fill, currentColor); } }
 @keyframes line { to { stroke-dashoffset: -420; } }
 @keyframes breathe { 50% { transform: scale(1.7); opacity: .55; } }
 @media (max-width: 880px) {
@@ -602,22 +563,10 @@ h3 {
   .section { padding: 74px 0; }
   .section-label { position: static; }
   .copy-cols, .principles { grid-template-columns: 1fr; }
-  .area-card { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
-  .area-side {
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    padding-top: 0;
-  }
-  .area-emblem--media { width: 48px; }
-  .area-emblem--studios { width: 28px; }
+  .area-card { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
   .media-brand-heading { gap: 10px; }
   .media-brand-wordmark { width: min(205px, 70vw); max-height: 22px; }
-  .studios-brand-heading {
-    gap: .24em;
-    font-size: clamp(18px, 6vw, 24px);
-    letter-spacing: .18em;
-  }
+  .media-brand-sign { width: 24px; }
   .brand-build-inner, .contact-inner { padding: 74px 0; }
   .orbit { max-width: 260px; }
   .contact-box { padding-left: 20px; }
@@ -703,17 +652,9 @@ h3 {
         <p class="lead reveal">Hois Studios bündelt die Organisation. Die Tätigkeiten selbst bleiben klar voneinander getrennt.</p>
         <div class="area-list">
           <article class="area-card reveal">
-            <div class="area-side">
-              <div class="area-number">01</div>
-              <div class="area-emblem area-emblem--media" aria-hidden="true">
-                <svg class="draw-on-reveal" viewBox="0 0 117.76 131.07" focusable="false">
-                  <path style="--logo-fill:#1f294e; --logo-stroke-width:1.65;" d="M65.37,110.38l-23.89,16.23c-1.87,1.27-3.89,1.95-6.1.94-1.76-.81-3.29-2.81-3.15-5.12l.02-53.3-27.24-.03-.02,61.97C2.36,130.28,0,127.7,0,124.66V12.39c0-3.62,1.93-6.88,4.63-9.14C9.14-.52,15.88-1.12,20.99,2.04l42.6,26.33,49.4,30.69c3.17,1.97,4.59,5.84,4.77,9.29.16,4.72-2.1,8.71-6.23,10.79l-22.17,15-5.81,3.95-5.94,4.02-12.23,8.29ZM52.68,93.9l-4.91-3.91v-46.71s20.72,21.36,20.72,21.36l4.97,5.26,18.75-14.99.04,31.05,18.48-12.34c2.77-2.96,2.64-7.39-.24-10.16l-32.23-19.91-17.72-10.98L20.29,7.65c-2.06-1.27-3.83-2.35-6.22-2.44-5.21-.2-9.4,3.62-9.06,8.96l-.02,49.84h27.25s.01-32.85.01-32.85l4.99,3.08v87.9c0,.36.13.55.23.66.11.12.33.16.62-.03l41.69-28.4,7.5-5.09-.06-23.83-3.09,2.44-11.04,8.91-20.38-21.18-.03,38.28Z"></path>
-                  <path style="--logo-fill:#e37b0c; --logo-stroke-width:1.65;" d="M52.68,97.58c-1.68.94-3.37,1.88-5.05,2.81l.12-6.73c1.64,1.3,3.29,2.61,4.93,3.91Z"></path>
-                </svg>
-              </div>
-            </div>
+            <div class="area-number">01</div>
             <div>
-              <h3 class="media-brand-heading"><img class="media-brand-wordmark" src="Hois%20Media%20schriftfont.svg" alt="Hois Media"></h3>
+              <h3 class="media-brand-heading"><img class="media-brand-wordmark" src="Hois%20Media%20schriftfont.svg" alt="Hois Media"><img class="media-brand-sign" src="Hois%20Media%20Logo.svg" alt="" aria-hidden="true"></h3>
               <p>Medien- und Content-Arbeit im Social-Media-Umfeld. Der Fokus liegt auf sauber aufbereiteten Kurzformaten, Schnitt, Struktur und Veröffentlichung.</p>
             </div>
           </article>
@@ -725,17 +666,10 @@ h3 {
             </div>
           </article>
           <article class="area-card reveal">
-            <div class="area-side">
-              <div class="area-number">03</div>
-              <div class="area-emblem area-emblem--studios" aria-hidden="true">
-                <svg class="draw-on-reveal" viewBox="0 0 104.36 135.7" focusable="false">
-                  <path style="--logo-fill:#162750; --logo-stroke-width:1.45;" d="M15.03,135.09c-2.66-.83-4.51-1.9-5.04-2.26-.55-.37-2.23-1.56-3.81-3.66-.63-.83-1.62-2.17-2.31-4.2-.57-1.7-.69-3.19-.7-4.2.37.89.91,2,1.68,3.2.95,1.49,1.86,2.49,2.12,2.77.76.82,2.29,2.46,4.82,3.73,1.17.59,3.93,1.99,7.54,1.62.5-.05.84-.1,1.31-.18,1.68-.29,5.31-.97,8.25-3.7.25-.23.56-.54.89-.92,4.2-4.33,5.7-12.12,6.16-18.16.12-2.12.24-4.24.36-6.37.06-2.95.12-5.9.19-8.85l.11-10.22c-.59.37-1.41.87-2.41,1.42-.92.5-3.32,1.8-6.06,2.74-1.24.42-4.83,1.58-9.65,1.63-4.75.05-8.6-1-11.13-1.92-.91-.42-1.87-.91-2.87-1.5-.55-.32-1.07-.65-1.56-.97l-2.79-2.12s-.09-.09-.13-.14c1.65.78,3.66,1.59,5.99,2.26,2.35.68,4.5,1.06,6.32,1.27l1.3.17c1.32.07,2.96.08,4.83-.11,1.12-.11,3.42-.41,6.2-1.27,4.25-1.32,7.27-3.24,9.6-4.74,1.04-.67,1.87-1.26,2.43-1.67l.05-2.55.16-14.15.19-13.55.12-9.54c.06-4.74.32-9.33.07-14.07-.18-3.43-.63-6.7-2.23-9.73-.37-.75-1.58-2.99-4.23-4.17-3.25-1.45-6.29-.23-7.1.09-5.16,2.03-6.81,7.91-7.25,9.47-1.63,5.79.39,10.73,1.15,12.36-1.18-1.03-4.13-3.91-4.74-8.38,0,0-.98-7.2,5.92-13.27,1.69-1.49,3.59-2.38,3.59-2.38,0,0,.21-.1.43-.19,6.15-2.48,10.47-.2,10.47-.2,1.52.8,2.47,1.86,3.2,2.67,1.32,1.47,2.1,2.94,2.55,3.97.24.55.45,1.12.62,1.71.84,2.86,1.2,5.72,1.21,8.74v13.61s-.17,22.01-.17,22.01c-.02,4.76-.04,9.52-.05,14.28.42-.34,1.06-.87,1.83-1.52,4.81-4.05,5.41-5.05,8.79-7.83,3.39-2.79,5.92-4.32,6.81-4.9,1.66-1.07,3.04-1.71,3.57-1.97,2.22-1.1,4.19-1.87,5.73-2.4.02-5.97.03-11.94.05-17.91,0-3.65.09-6.65.18-8.69,0,0,.71-15.92,4.38-22.84,1.05-1.98,2.47-3.52,2.47-3.52.32-.4,1.32-1.43,2.5-2.21,3.47-2.3,8.58-2.2,12.31-.17,1.01.55,1.76,1.15,2.24,1.58.94.94,1.93,1.86,2.57,3.01l1.11,1.97c2.56,4.56,2.42,13.62-1.47,18.06.84-2.52,2.86-9.76-.71-16.53-.66-1.24-1.42-2.31-2.21-3.23-.52-.62-1.36-1.47-2.58-2.19-2.58-1.52-6.46-2.19-9.37-.45-1.31.78-2.21,1.93-2.61,2.43-.82,1.04-1.32,2.04-1.69,2.91-2.19,5.21-2.79,11.93-2.79,11.93-.11,1.27-.37,4.32-.56,11.27-.04,1.62-.16,6.32-.14,13.1.01,4.16.07,7.64.12,10.14,3.41-.74,6.28-.83,8.31-.83,0,0,9.45.15,17.85,4.97,1.31.75,2.47,1.58,2.47,1.58,1,.71,1.81,1.39,2.44,1.95.71.64,1.41,1.29,2.12,1.93-1.1-.55-2.2-1.1-3.3-1.65-2.01-1.14-3.73-1.9-4.88-2.36,0,0-9.57-3.85-19.78-2.62-1.23.15-2.37.4-2.37.4-1.07.23-2.03.52-2.88.82-.06,15.61.04,28.8.02,39.57,0,3.74-.03,11.18,4.63,14.46,2.01,1.41,4.36,1.74,5.72,1.85,5.11.42,9.7-1.46,11.82-2.46,1.04-.48,2.08-.97,3.12-1.45l-2.22,1.85-3.75,2.55c-4.66,2.98-9.7,3.86-13.31,2.75-2.91-.89-4.97-2.74-4.97-2.74s-1.18-1.06-2.15-2.53c-2.84-4.3-2.79-10.74-2.76-12.07l-.07-6.57.13-33.88c-.11.05-.27.12-.47.2-1.66.72-7.52,3.37-14.8,9.52-2.26,1.91-5.02,4.46-7.8,7.03-.18.16-.89.83-1.88,1.71-.82.74-1.49,1.32-1.92,1.69.02,1.28.03,3.26.04,5.68,0,3.65-.12,9.59-.18,14.25-.11,8.56-1.06,21.53-6.8,27.9-.37.48-.91,1.12-1.62,1.8-3.13,2.99-6.64,3.9-7.93,4.23,0,0-4.51,1.39-8.95,0Z"></path>
-                </svg>
-              </div>
-            </div>
+            <div class="area-number">03</div>
             <div>
-              <h3 class="studios-brand-heading" aria-label="Hois Studios"><span>Hois</span><span>Studios</span></h3>
-              <p>Hois Studios bleibt der organisatorische Rahmen des Einzelunternehmens und bündelt die Verwaltung der Bereiche.</p>
+              <h3>Verwaltung</h3>
+              <p>Hois Studios bleibt der organisatorische Rahmen.</p>
             </div>
           </article>
         </div>
